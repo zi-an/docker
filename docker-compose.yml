@@ -3,6 +3,7 @@ version: "2.2"
 networks:
   macvlan:
     driver: macvlan
+    enable_ipv6: false
     driver_opts:
       parent: enp8s0
     ipam:

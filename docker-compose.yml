@@ -61,7 +61,7 @@ services:
   v2ray:
       container_name: v2ray
       hostname: v2ray.service
-      image: v2ray
+      image: v2ray4.45
       tty: true
       mac_address: 02-11-00-00-00-00
       networks:

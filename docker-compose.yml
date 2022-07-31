@@ -3,14 +3,13 @@ version: "2.2"
 networks:
   macvlan:
     driver: macvlan
-    enable_ipv6: false
     driver_opts:
       parent: enp8s0
     ipam:
       config:
-        - subnet: 192.168.31.200/24
-          ip_range: 192.168.31.200/28
-          gateway: 192.168.31.1
+        - subnet: 192.168.10.200/24
+          ip_range: 192.168.10.200/28
+          gateway: 192.168.10.1
 
 services:
   java:
@@ -21,7 +20,7 @@ services:
     mac_address: 20-00-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.200
+        ipv4_address: 192.168.10.200
     command: /usr/sbin/sshd -D
 
   databases:
@@ -32,7 +31,7 @@ services:
     mac_address: 20-10-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.201
+        ipv4_address: 192.168.10.201
 
   redis:
     container_name: redis
@@ -42,7 +41,7 @@ services:
     mac_address: 20-20-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.202
+        ipv4_address: 192.168.10.202
 
   seafile:
     container_name: seafile
@@ -52,7 +51,7 @@ services:
     mac_address: 02-10-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.210
+        ipv4_address: 192.168.10.210
     dns: 223.6.6.6
     command: >
       sh -c "/seafile/seafile-server-5.1.4/seafile.sh start &&
@@ -62,12 +61,12 @@ services:
   v2ray:
       container_name: v2ray
       hostname: v2ray.service
-      image: v2ray4.45
+      image: v2ray
       tty: true
       mac_address: 02-11-00-00-00-00
       networks:
         macvlan:
-            ipv4_address: 192.168.31.211
+            ipv4_address: 192.168.10.211
       dns: 223.6.6.6
       command: sh -c "/update.sh && /v2ray run & /usr/sbin/sshd -D"
 
@@ -79,7 +78,7 @@ services:
     mac_address: 02-12-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.212
+        ipv4_address: 192.168.10.212
     dns: 223.6.6.6
     command: sh -c "/update.sh && /v2ray run & /usr/sbin/sshd -D"
 
@@ -91,7 +90,7 @@ services:
     mac_address: 02-22-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.222
+        ipv4_address: 192.168.10.222
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
 
@@ -103,7 +102,7 @@ services:
     mac_address: 02-05-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.205
+        ipv4_address: 192.168.10.205
     dns: 223.6.6.6
     command: sh -c "postfix start && dovecot && saslauthd -a pam && /usr/sbin/sshd -D"
 
@@ -116,6 +115,18 @@ services:
     mac_address: 02-06-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.31.206
+        ipv4_address: 192.168.10.206
     dns: 223.6.6.6
     command: sh -c "squid & /usr/sbin/sshd -D"
+
+  t219:
+    container_name: t219
+    hostname: test.service
+    image: centos7.8
+    tty: true
+    mac_address: 02-19-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.219
+    dns: 223.6.6.6
+    command: /usr/sbin/sshd -D

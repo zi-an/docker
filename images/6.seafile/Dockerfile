@@ -9,7 +9,7 @@ RUN yum install -y which python-setuptools python-pillow &&\
 # 拼凑密码，answer第三行为服务器域名或者ip
 RUN echo > /answer &&\
     echo "zian">> /answer &&\
-    echo "192.168.31.210">> /answer &&\
+    echo "192.168.10.210">> /answer &&\
     echo >> /answer &&\
     echo >> /answer &&\
     sed -i "s/= ask_admin_email()/= 'a@a.a'/g" /seafile/seafile-server-5.1.4/check_init_admin.py &&\

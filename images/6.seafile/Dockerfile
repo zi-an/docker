@@ -22,7 +22,7 @@ CMD ["/usr/sbin/sshd -D"]
 
 
 # /seafile/seafile-server-5.1.4/seahub/seahub/settings.py
-# 中FILE_PREVIEW_MAX_SIZE 30m限制可以解除
+# 中FILE_PREVIEW_MAX_SIZE 30m限制可以解除sed -i "s|= 30 |= 1024 |g" /seafile/seafile-server-5.1.4/seahub/seahub/settings.py
 # 登录页默认密码
 # sed -i 's/"password" value=""/"password" value="a"/g' /seafile/seafile-server-5.1.4/seahub/seahub/templates/registration/login.html
 # sed -i 's/"login" value=""/"login" value="a@a.a"/g' /seafile/seafile-server-5.1.4/seahub/seahub/templates/registration/login.html

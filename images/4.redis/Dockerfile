@@ -11,7 +11,7 @@ RUN echo "[qinghua-epel]" >> /etc/yum.repos.d/epel.repo &&\
 RUN  sed -i "s/bind 127.0.0.1/bind 0.0.0.0/" /etc/redis.conf &&\
      sed -i "s/protected-mode yes/protected-mode no/" /etc/redis.conf &&\
      #sed -i "s/daemonize no/daemonize yes/" /etc/redis.conf &&\
-     sed -i "s/# requirepass foobared/requirepass haiyang/" /etc/redis.conf
+     sed -i "s/# requirepass foobared/requirepass zian/" /etc/redis.conf
 
 
 CMD ["/usr/bin/redis-server","/etc/redis.conf"]

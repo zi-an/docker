@@ -21,6 +21,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.200
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     command: /usr/sbin/sshd -D
 
   databases:
@@ -32,6 +34,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.201
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
 
   redis:
     container_name: redis
@@ -42,6 +46,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.202
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
 
   seafile:
     container_name: seafile
@@ -52,6 +58,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.210
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: >
       sh -c "/seafile/seafile-server-5.1.4/seafile.sh start &&
@@ -67,6 +75,8 @@ services:
       networks:
         macvlan:
             ipv4_address: 192.168.10.211
+      sysctls:
+        net.ipv6.conf.all.disable_ipv6: 1
       dns: 223.6.6.6
       command: sh -c "/update.sh && /v2ray run & /usr/sbin/sshd -D"
 
@@ -79,6 +89,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.212
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: sh -c "/update.sh && /v2ray run & /usr/sbin/sshd -D"
 
@@ -91,6 +103,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.222
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
 
@@ -103,6 +117,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.205
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: sh -c "postfix start && dovecot && saslauthd -a pam && /usr/sbin/sshd -D"
 
@@ -116,6 +132,8 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.206
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: sh -c "squid & /usr/sbin/sshd -D"
 
@@ -125,8 +143,11 @@ services:
     image: centos7.8
     tty: true
     mac_address: 02-19-00-00-00-00
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
     networks:
       macvlan:
         ipv4_address: 192.168.10.219
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
+

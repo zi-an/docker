@@ -60,11 +60,10 @@ services:
         ipv4_address: 192.168.10.210
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
+    volumes:
+      - /home/data/seafile/:/data/
     dns: 223.6.6.6
-    command: >
-      sh -c "/seafile/seafile-server-5.1.4/seafile.sh start &&
-             /seafile/seafile-server-5.1.4/seahub.sh start 80 &&
-             /usr/sbin/sshd -D"
+    command:  /seafile.sh
 
   v2ray:
       container_name: v2ray
@@ -151,3 +150,20 @@ services:
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
 
+  xunlei:
+    container_name: xunlei
+    hostname: xunlei.service
+    image: cnk3x/xunlei:latest
+    privileged: true
+    tty: true
+    mac_address: 02-09-00-00-00-00
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    volumes:
+      - /home/nginx/xunlei/:/xunlei/downloads/
+      - /home/data/xunlei:/xunlei/data
+    environment:
+      - XL_WEB_PORT=80
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.209

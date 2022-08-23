@@ -25,9 +25,9 @@ services:
       net.ipv6.conf.all.disable_ipv6: 1
     command: /usr/sbin/sshd -D
 
-  databases:
+  mariadb:
     container_name: mariadb
-    hostname: databases.service
+    hostname: mariadb.service
     image: mariadb5.5
     tty: true
     mac_address: 20-10-00-00-00-00
@@ -36,6 +36,9 @@ services:
         ipv4_address: 192.168.10.201
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
+    volumes:
+    - /home/data/mysql:/var/lib/mysql/
+    command: /mariadb.sh
 
   redis:
     container_name: redis
@@ -167,3 +170,4 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.209
+

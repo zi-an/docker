@@ -4,7 +4,11 @@ RUN yum install mariadb-server -y &&\
     rm -rf /var/cache/yum/
 
 RUN mysql_install_db --user=mysql
+
 ADD init.sql .
+ADD mariadb.sh .
+RUN chmod 777 /mariadb.sh
+
 
 CMD ["/usr/bin/mysqld_safe"]
 # 打开容器后需要执行: mysql < init.sql

@@ -7,6 +7,7 @@ RUN yum install unzip -y &&\
 
 # 配置文件除密码外已经加入,其中head命令会删除最后一个字符
 ADD temp.json /
+ENV TZ=Asia/Shanghai
 
 RUN echo "export passwd=\`curl https://www.youhou8.com/pwd2\`" > update.sh &&\
     echo "sed \"s|123456|\$passwd|g\" /temp.json > config.json" >> update.sh &&\

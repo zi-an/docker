@@ -82,9 +82,9 @@ services:
       dns: 223.6.6.6
       command: sh -c "/update.sh & /v2ray run & /usr/sbin/sshd -D"
 
-  v2ray-pc:
-    container_name: v2ray-pc
-    hostname: v2ray-pc.service
+  xray:
+    container_name: xray
+    hostname: xray.service
     image: xray1.5
     tty: true
     mac_address: 02-12-00-00-00-00

@@ -85,7 +85,7 @@ services:
   v2ray-pc:
     container_name: v2ray-pc
     hostname: v2ray-pc.service
-    image: v2ray4.45
+    image: xray1.5
     tty: true
     mac_address: 02-12-00-00-00-00
     networks:
@@ -94,7 +94,7 @@ services:
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
-    command: sh -c "/update.sh & /v2ray run & /usr/sbin/sshd -D"
+    command: sh -c "/update.sh & /xray run -confdir=/ & /usr/sbin/sshd -D"
 
   test:
     container_name: test

@@ -1,5 +1,5 @@
 FROM centos7.8
-
+# redis3.2
 RUN echo "[qinghua-epel]" >> /etc/yum.repos.d/epel.repo &&\
     echo "name=qinghua-epel" >> /etc/yum.repos.d/epel.repo &&\
     echo "baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/x86_64/" >> /etc/yum.repos.d/epel.repo &&\

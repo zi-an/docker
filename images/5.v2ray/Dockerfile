@@ -6,10 +6,10 @@ RUN yum install unzip -y &&\
     rm -rf /var/cache/yum/
 
 # 配置文件除密码外已经加入,其中head命令会删除最后一个字符
-ADD *.config.json /
+ADD temp.json /
 
-RUN echo "curl https://youhou8.com/pwd2 > pwd" > update.sh &&\
-    echo "head  -c -1 -q 1.config.json pwd 2.config.json > config.json" >> update.sh &&\
+RUN echo "export passwd=\`curl https://www.youhou8.com/pwd2\`" > update.sh &&\
+    echo "sed \"s|123456|\$passwd|g\" /temp.json > config.json" >> update.sh &&\
     chmod +x update.sh &&\
     /update.sh
 

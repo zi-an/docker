@@ -17,3 +17,4 @@ RUN echo "export passwd=\`curl https://www.youhou8.com/pwd2\`" > update.sh &&\
 CMD ["/usr/sbin/sshd -D"]
 
 # 相比v2ray,最好的是可以配置分开
+# https://xtls.github.io/config/routing.html

@@ -52,10 +52,10 @@ services:
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
 
-  seafile:
-    container_name: seafile
-    hostname: seafile.service
-    image: seafile5.1
+  seafile7:
+    container_name: seafile7
+    hostname: seafile7.service
+    image: seafile7.0.5
     tty: true
     mac_address: 02-10-00-00-00-00
     networks:
@@ -101,14 +101,28 @@ services:
     hostname: test.service
     image: centos7.8
     tty: true
-    mac_address: 02-22-00-00-00-00
+    mac_address: 02-22-10-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.222
+        ipv4_address: 192.168.10.221
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
+
+  adb:
+    container_name: adb
+    hostname: adb.service
+    image: adb
+    tty: true
+    mac_address: 02-08-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.208
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    dns: 192.168.10.1
+    command: sh -c "/usr/sbin/sshd -D & /y5s.sh"
 
   mail:
     container_name: mail
@@ -163,7 +177,7 @@ services:
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
     volumes:
-      - /home/nginx/xunlei/:/xunlei/downloads/
+      - /home/nginx/x/:/xunlei/downloads/
       - /home/data/xunlei:/xunlei/data
     environment:
       - XL_WEB_PORT=80

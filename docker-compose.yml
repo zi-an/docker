@@ -101,10 +101,10 @@ services:
     hostname: test.service
     image: centos7.8
     tty: true
-    mac_address: 02-22-10-00-00-00
+    mac_address: 02-22-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.221
+        ipv4_address: 192.168.10.222
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 1
     dns: 223.6.6.6

@@ -185,3 +185,14 @@ services:
       macvlan:
         ipv4_address: 192.168.10.209
 
+  nginx:
+    container_name: nginx
+    hostname: nginx.ipv6
+    image: nginx1.20
+    tty: true
+    mac_address: 02-06-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.206
+    dns: 223.6.6.6
+    command: sh -c "nginx & /usr/sbin/sshd -D"

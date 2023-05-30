@@ -1,0 +1,17 @@
+[qinghua-base]
+name=qinghua-base
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/7.8.2003/os/x86_64/
+gpgcheck=0
+
+[qinghua-extras]
+name=qinghua-extras
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/7.8.2003/extras/x86_64/
+gpgcheck=0
+
+[qinghua-epel]
+name=qinghua-epel
+baseurl=https://mirrors.tuna.tsinghua.edu.cn/epel/7/x86_64/
+gpgcheck=0
+
+
+

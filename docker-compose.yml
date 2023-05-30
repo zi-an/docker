@@ -110,6 +110,20 @@ services:
     dns: 223.6.6.6
     command: /usr/sbin/sshd -D
 
+  idea2020:
+    container_name: idea
+    hostname: idea.service
+    image: idea2020
+    tty: true
+    mac_address: 02-11-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.211
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    dns: 223.6.6.6
+    command: /usr/sbin/sshd -D
+
   adb:
     container_name: adb
     hostname: adb.service
@@ -170,17 +184,18 @@ services:
   xunlei:
     container_name: xunlei
     hostname: xunlei.service
-    image: cnk3x/xunlei:latest
+    image: docker.io/cnk3x/xunlei:3.4.0
+    #centos7就这个版本最新
     privileged: true
     tty: true
     mac_address: 02-09-00-00-00-00
-    sysctls:
-      net.ipv6.conf.all.disable_ipv6: 1
     volumes:
       - /home/nginx/xunlei/:/xunlei/downloads/
-      - /home/data/xunlei:/xunlei/data
+      #- /home/data/xunlei:/xunlei/data
+      #新版会丢失cgi文件
     environment:
       - XL_WEB_PORT=80
+    dns: 223.6.6.6
     networks:
       macvlan:
         ipv4_address: 192.168.10.209
@@ -194,5 +209,7 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.206
+    volumes:
+    - /home/nginx/:/home/nginx/
     dns: 223.6.6.6
-    command: sh -c "nginx & /usr/sbin/sshd -D"
+    command: sh -c "nginx & /usr/sbin/sshd -D & /home/nginx/.go"

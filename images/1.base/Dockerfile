@@ -6,14 +6,10 @@ ADD centos-7.8.2003-x86_64-docker.tar.xz /
 RUN echo "HandleLidSwitch=lock" >> /etc/systemd/logind.conf
 
 # 改清华旧源
-RUN rm -rf /var/cache/yum/ &&\
-    mkdir /etc/yum.repos.d/backup/ &&\
-    mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/ &&\
-    echo "[qinghua]" >> /etc/yum.repos.d/qinghua.repo &&\
-    echo "name=qinghua" >> /etc/yum.repos.d/qinghua.repo &&\
-    echo "baseurl=https://mirrors.tuna.tsinghua.edu.cn/centos-vault/7.8.2003/os/x86_64/" >> /etc/yum.repos.d/qinghua.repo &&\
-    echo "gpgcheck=0" >> /etc/yum.repos.d/qinghua.repo &&\
-    yum install bash-completion wget openssh-server -y &&\
+RUN mkdir /etc/yum.repos.d/backup/ &&\
+    mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/
+ADD qinghua.repo /etc/yum.repos.d/
+RUN yum install bash-completion wget openssh-server -y &&\
     rm -rf /var/cache/yum/
 
 # 北京时区与ssh免密码登录echo "Asia/shanghai" > /etc/timezone  export

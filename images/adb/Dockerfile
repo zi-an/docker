@@ -1,11 +1,18 @@
 FROM centos7.8
 
-RUN wget https://mirrors.tuna.tsinghua.edu.cn/epel/7/x86_64/Packages/a/android-tools-20130123git98d0789-5.el7.x86_64.rpm --no-check-certificate
+RUN mkdir .android
+ADD .android/adbkey /root/.android/
+ADD auto.sh /root/
 
-RUN rpm -i android-tools-20130123git98d0789-5.el7.x86_64.rpm
+RUN wget https://dl.google.com/android/repository/platform-tools_r34.0.3-linux.zip
 
-RUN adb shell
-
-ADD y5s.sh /
+RUN yum install unzip -y &&\
+    unzip platform-tools_r34.0.3-linux.zip &&\
+    mv platform-tools/* /bin/ &&\
+    chmod 750 ~/.android &&\
+    chmod 600 ~/.android/adbkey &&\
+    chmod 600 /root/auto.sh &&\
+    sed -i "s/\r//" /root/auto.sh &&\
+    rm platform* -rf
 
 CMD ["/usr/sbin/sshd -D"]

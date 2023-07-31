@@ -1,0 +1,24 @@
+FROM alpine
+
+RUN apk update &&\
+    apk add android-tools bash-completion openssh-server &&\
+    ssh-keygen -A
+
+RUN mkdir ~/.ssh &&\
+    echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOnFp3JLA1fwdHjEs8NSpgQ4k0eAhvaQbecKXl03mhsm" >> ~/.ssh/authorized_keys &&\
+    chmod 700 ~/.ssh &&\
+    chmod 644 ~/.ssh/authorized_keys &&\
+    echo "root:1" | chpasswd
+
+
+RUN mkdir ~/.android/
+ADD adbkey /root/.android/
+ADD auto.sh /root/
+RUN echo "alias auto='nohup /root/auto.sh &'" >> /etc/profile &&\
+    chmod 750 ~/auto.sh &&\
+    sed -i "s/\r//g" ~/auto.sh &&\
+    chmod 750 ~/.android/ &&\
+    chmod 600 ~/.android/adbkey
+
+#客户端shell里要有执行source /etc/profile
+CMD ["/usr/sbin/sshd","-D"]

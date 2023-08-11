@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="redis7.0" />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="images/redis/Dockerfile" />
+        <option name="sourceFilePath" value="images/redis7.0/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

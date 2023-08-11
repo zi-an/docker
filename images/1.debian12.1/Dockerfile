@@ -16,9 +16,14 @@ RUN apt update &&\
     mkdir /run/sshd &&\
     echo 'y' | apt install -y openssh-server
 
+# vim-minimal在centos8.4的配置文件,对应在debian中的vim-tiny,解决i模式下的复制以及光标移动问题
+ADD etc/virc /etc/vim/vimrc.tiny
+ADD etc/ssh/id_ed25519 /etc/ssh/ssh_host_ed25519_key
+
 RUN echo "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOnFp3JLA1fwdHjEs8NSpgQ4k0eAhvaQbecKXl03mhsm" >> ~/.ssh/authorized_keys &&\
     chmod 700 ~/.ssh &&\
     chmod 644 ~/.ssh/authorized_keys &&\
+    chmod 600 /etc/ssh/ssh_host_ed25519_key &&\
     echo "source /etc/profile" >> /root/.bashrc &&\
     echo "clear" >> /root/.bashrc
 

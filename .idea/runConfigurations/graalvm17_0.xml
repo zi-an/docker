@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="graalvm17.0" />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="images/graalvm/Dockerfile" />
+        <option name="sourceFilePath" value="images/graalvm17.0/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

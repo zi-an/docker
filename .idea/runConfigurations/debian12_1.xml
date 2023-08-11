@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="debian12.1" />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="images/1.debian12.0/Dockerfile" />
+        <option name="sourceFilePath" value="images/1.debian12.1/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

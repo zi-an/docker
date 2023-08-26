@@ -12,12 +12,24 @@ networks:
           gateway: 192.168.10.1
 
 services:
+  nginx:
+    container_name: nginx
+    hostname: nginx.mm
+    image: nginx1.22
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - /home/nginx/:/home/nginx/
+    command: sh -c "nginx & /var/www/html/.go"
+
   java:
     container_name: java
     hostname: java.service
     image: java17.0
     tty: true
-    mac_address: 20-00-00-00-00-00
+    mac_address: 02-00-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.200
@@ -32,7 +44,7 @@ services:
     hostname: graalvm.service
     image: graalvm17.0
     tty: true
-    mac_address: 20-10-00-00-00-00
+    mac_address: 02-01-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.201
@@ -47,7 +59,7 @@ services:
     hostname: 202.mm
     image: redis7.0
     tty: true
-    mac_address: 20-20-00-00-00-00
+    mac_address: 02-02-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.202
@@ -55,40 +67,41 @@ services:
       net.ipv6.conf.all.disable_ipv6: 1
     volumes:
       - /home/redis:/var/lib/redis/
-    command: sh -c "/usr/bin/redis-server /etc/redis/redis.conf & /usr/sbin/sshd -D "
+    command: sh -c "/usr/bin/redis-server /etc/redis/redis.conf & /usr/sbin/sshd -D"
 
-  test:
-    container_name: test
-    hostname: 222.mm
-    image: debian12.1
+  ipv6:
+    container_name: ipv6
+    hostname: 206.mm
+    image: ipv6
     tty: true
-    mac_address: 22-20-00-00-00-00
+    mac_address: 02-06-00-00-00-00
+    networks:
+      default:
+        ipv4_address: 172.18.0.6
+      macvlan:
+        ipv4_address: 192.168.10.206
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 0
+    volumes:
+      - /home/nginx/:/home/nginx/
+    command: sh -c "nginx & /usr/sbin/sshd -D"
+
+  gitlab:
+    container_name: gitlab
+    hostname: 207.mm
+    image: gitlab/gitlab-ce
+    tty: true
+    mac_address: 02-07-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.222
-    sysctls:
-      net.ipv6.conf.all.disable_ipv6: 1
-    command: /usr/sbin/sshd -D
-
-  nginx:
-    container_name: nginx
-    hostname: nginx.mm
-    image: nginx1.22
-    restart: always
-    tty: true
-    ports:
-    - "80:80"
-    - "8888:8888"
-    volumes:
-    - /home/nginx/:/home/nginx/
-    command: sh -c "nginx & /var/www/html/.go"
+        ipv4_address: 192.168.10.207
 
   adb:
     container_name: adb
     hostname: 208.mm
     image: adb34.0
     tty: true
-    mac_address: 20-80-00-00-00-00
+    mac_address: 02-08-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.208
@@ -111,26 +124,3 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.209
-
-  gitlab:
-    container_name: gitlab
-    hostname: 207.mm
-    image: gitlab/gitlab-ce
-    tty: true
-    mac_address: 02-07-00-00-00-00
-    networks:
-      macvlan:
-        ipv4_address: 192.168.10.207
-
-  quic:
-    container_name: quic
-    hostname: quic.mm
-    image: quic
-    tty: true
-    mac_address: 02-11-00-00-00-00
-    networks:
-      macvlan:
-        ipv4_address: 192.168.10.211
-    sysctls:
-      net.ipv6.conf.all.disable_ipv6: 1
-    command:  sh -c "nginx & /usr/sbin/sshd -D"

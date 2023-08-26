@@ -1,0 +1,41 @@
+version: '3.3'
+
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp8s0
+    ipam:
+      config:
+        - subnet: 192.168.10.200/24
+          ip_range: 192.168.10.200/28
+          gateway: 192.168.10.1
+
+services:
+  guacd:
+    container_name: guacd
+    image: dushixiang/guacd:latest
+    mac_address: 02-18-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.218
+
+  next-terminal:
+    container_name: terminal
+    image: dushixiang/next-terminal-pro:latest
+    environment:
+      DB: sqlite
+      GUACD_HOSTNAME: guacd
+      GUACD_PORT: 4822
+      SERVER_ADDR : 0.0.0.0:80
+    mac_address: 02-19-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.219
+    volumes:
+      - /etc/localtime:/etc/localtime
+      - /home/next/:/usr/local/next-terminal/data
+
+#admin/admin
+#https://next-terminal.typesafe.cn/docs/install/docker-install.html
+#/opt/guacamole/sbin/guacd -b 0.0.0.0 -L info -f

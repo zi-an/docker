@@ -1,0 +1,87 @@
+version: "3.8"
+#https://docs.docker.com/compose/compose-file/compose-file-v3/
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp8s0
+    ipam:
+      config:
+        - subnet: 192.168.10.200/24
+          ip_range: 192.168.10.200/28
+          gateway: 192.168.10.1
+
+services:
+  ffmpeg:
+    container_name: ffmpeg
+    hostname: 210.mm
+    image: ffmpeg5.1
+    tty: true
+    tmpfs: /home/nginx/
+    mac_address: 02-10-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.210
+    command: sh -c "nginx & /usr/sbin/sshd -D"
+
+  rtmp:
+    container_name: rtmp
+    hostname: 211.mm
+    image: rtmp1.24
+    tty: true
+    tmpfs: /tmp/
+    mac_address: 02-11-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.211
+    command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
+
+  flv:
+    container_name: flv
+    hostname: 212.mm
+    image: flv
+    tty: true
+    tmpfs: /tmp/
+    mac_address: 02-12-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.212
+    command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
+
+  quic:
+    container_name: quic
+    hostname: quic.mm
+    image: quic
+    tty: true
+    mac_address: 02-13-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.213
+    command: sh -c "nginx & /usr/sbin/sshd -D"
+
+  test:
+    container_name: test
+    hostname: 222.mm
+    image: debian12.1
+    tty: true
+    tmpfs: /tmpfs/
+    mac_address: 02-22-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.222
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    command: /usr/sbin/sshd -D
+
+
+  test220:
+    container_name: test220
+    hostname: 220.mm
+    image: debian12.1
+    tty: true
+    mac_address: 02-20-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.220
+    command: /usr/sbin/sshd -D
+

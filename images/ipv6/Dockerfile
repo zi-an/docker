@@ -14,5 +14,6 @@ RUN cp /etc/ssh/ssh_host_ed25519_key ~/.ssh/id_ed25519 &&\
 RUN git clone git@github.com:zi-an/zi-an.github.io.git --branch=ipv6 /zian
 # 添加定时任务 */5 * * * * docker exec ipv6 /zian/ipv6update.sh
 
-
 CMD ["/usr/sbin/sshd","-D"]
+#debian自带的nginx内的--with-stream=dynamic,是动态的,要重新编译
+#nginx源里的nginx自带--with-stream,不用编译

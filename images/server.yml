@@ -83,7 +83,7 @@ services:
     sysctls:
       net.ipv6.conf.all.disable_ipv6: 0
     volumes:
-      - /home/nginx/:/home/nginx/
+      - /home/nginx/:/home/nginx/ #仅用作于ssh操作
     command: sh -c "nginx & /usr/sbin/sshd -D"
 
   gitlab:
@@ -113,6 +113,7 @@ services:
     container_name: xunlei
     hostname: 209.mm
     image: docker.io/cnk3x/xunlei
+    user: root
     privileged: true
     tty: true
     mac_address: 02-09-00-00-00-00
@@ -124,3 +125,18 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.209
+
+  terminal:
+    container_name: terminal
+    hostname: 217.mm
+    image: terminal
+    tty: true
+    environment:
+      GUACD_HOSTNAME: terminal
+      SERVER_ADDR : 0.0.0.0:80
+    volumes:
+      - /home/terminal/:/usr/local/next-terminal/data
+    mac_address: 02-17-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.217

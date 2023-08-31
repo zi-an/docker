@@ -3,7 +3,7 @@
 | https://ffmpeg.org/ffmpeg-all.html
 
 ## 测试脚本
-* 下载-->剪辑-->合并
+* 下载-->剪辑-->合并-->推流
 ```shell
 wget https://heishenhua.com/video/b1/gamesci_wukong.mp4 -O hsh.mp4
 ffmpeg -i hsh.mp4 -ss 00:07 -to 01:21 -c copy hsh1.mp4
@@ -11,7 +11,11 @@ ffmpeg -i hsh.mp4 -ss 01:34 -to 12:12 -c copy hsh2.mp4
 echo "file hsh1.mp4" >> hsh.txt
 echo "file hsh2.mp4" >> hsh.txt
 ffmpeg -f concat -i hsh.txt -c copy heishenhua.mp4
-``` 
+
+ffmpeg -re -stream_loop -1 -i amd30.mp4 -vcodec copy -acodec copy -f flv rtmp://212.mm/hls/9
+```
+* -stream_loop -1 循环推送
+* vcodec与acodec需要使用格式,不让会有延迟
 
 ## 查看视频信息
 ```shell

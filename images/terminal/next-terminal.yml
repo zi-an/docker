@@ -1,5 +1,5 @@
 version: '3.3'
-
+# 堡垒服务器next-terminal的docker镜像
 networks:
   macvlan:
     driver: macvlan
@@ -34,7 +34,7 @@ services:
         ipv4_address: 192.168.10.219
     volumes:
       - /etc/localtime:/etc/localtime
-      - /home/next/:/usr/local/next-terminal/data
+      - /home/next/next/:/usr/local/next-terminal/data
 
 #admin/admin
 #https://next-terminal.typesafe.cn/docs/install/docker-install.html

@@ -14,8 +14,10 @@ ffmpeg -f concat -i hsh.txt -c copy heishenhua.mp4
 
 ffmpeg -re -stream_loop -1 -i amd30.mp4 -vcodec copy -acodec copy -f flv rtmp://212.mm/hls/9
 ```
+* -re 重复播放
 * -stream_loop -1 循环推送
-* vcodec与acodec需要使用格式,不让会有延迟
+* vcodec与acodec需要使用格式,不用影音会有延迟
+* -qscale 0最高质量
 
 ## 查看视频信息
 ```shell

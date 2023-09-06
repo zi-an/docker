@@ -9,7 +9,8 @@ RUN echo "events {worker_connections 1024;}" > /etc/nginx/nginx.conf &&\
     echo "server {listen 80;listen [::]:80;proxy_pass tcp80;}}" >> /etc/nginx/nginx.conf
 
 RUN apt install -y git
-RUN cp /etc/ssh/ssh_host_ed25519_key ~/.ssh/id_ed25519 &&\
+RUN sed -i "19icd /home/nginx/" /root/.bashrc &&\
+    cp /etc/ssh/ssh_host_ed25519_key ~/.ssh/id_ed25519 &&\
     ssh -o "StrictHostKeyChecking=no" git@github.com ;exit 0
 RUN git clone git@github.com:zi-an/zi-an.github.io.git --branch=ipv6 /zian
 # 添加定时任务 */5 * * * * docker exec ipv6 /zian/ipv6update.sh

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="KubernetesApiSettings">
+    <option name="configPaths">
+      <list>
+        <option value="$PROJECT_DIR$/config" />
+      </list>
+    </option>
+  </component>
+  <component name="KubernetesSettings">
+    <option name="contextName" value="kubernetes-admin@kubernetes" />
+  </component>
+</project>

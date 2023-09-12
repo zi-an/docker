@@ -32,8 +32,7 @@ RUN sed -i "22iHostKey /etc/ssh/ssh_host_ed25519_key" /etc/ssh/sshd_config &&\
 
 # 解决sshd时中文显示错误问题(apt安装语言包locales),bash下可以不用
 # 中文汉化,通过find /etc -mtime -1找到dpkg-reconfigure locales的不同,确定是/etc/default/locale文件
-RUN apt install locales -y && \
-    echo "zh_CN.UTF-8 UTF-8" > /etc/locale.gen &&\
+RUN echo "zh_CN.UTF-8 UTF-8" > /etc/locale.gen &&\
     echo "LANG=zh_CN.UTF-8" > /etc/default/locale &&\
     locale-gen
 

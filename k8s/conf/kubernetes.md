@@ -18,6 +18,7 @@ hostname k610d
 echo k610d > /etc/hostname
 echo "192.168.10.5 k610d" >> /etc/hosts
 
+mkdir /etc/docker
 echo '{"hosts":["unix:///var/run/docker.sock","tcp://0.0.0.0:2375"],"registry-mirrors": ["http://hub-mirror.c.163.com"]}' > /etc/docker/daemon.json
 echo "net.bridge.bridge-nf-call-ip6tables = 1" > /etc/sysctl.d/k8s.conf
 echo "net.bridge.bridge-nf-call-iptables = 1" >> /etc/sysctl.d/k8s.conf
@@ -45,8 +46,8 @@ cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 chown $(id -u):$(id -g) $HOME/.kube/config
 
 wget https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-kubectl apply -f kube-flannel.yml 
 kubectl taint nodes --all node-role.kubernetes.io/master-
+kubectl apply -f kube-flannel.yml 
 
 #后台cni报错解决
 sed -i "s|--network-plugin=cni| |g" /var/lib/kubelet/kubeadm-flags.env

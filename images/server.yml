@@ -126,6 +126,20 @@ services:
       macvlan:
         ipv4_address: 192.168.10.209
 
+  jenkins:
+    container_name: jenkins
+    hostname: 210.mm
+    image: jenkins2.414
+    tty: true
+    tmpfs: /tmpfs/
+    mac_address: 02-10-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.210
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 1
+    command: /usr/sbin/sshd -D
+
   terminal:
     container_name: terminal
     hostname: 217.mm

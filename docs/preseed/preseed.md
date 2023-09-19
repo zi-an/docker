@@ -64,13 +64,14 @@ iso
 ```
 
 
-# 优化版
+# 优化版 9-15测试通过
 * 本地化,域名
 * 本土化,换为国内地址
 * root密码+不创建用户
 * 流行问卷取消
 * 安装并下载脚本并且运行
 * pkgsel/include安装包选择/包括
+* 不更新软件
 ```
 wget https://www.debian.org/releases/bookworm/example-preseed.txt -O preseed.cfg
 
@@ -132,9 +133,3 @@ gzip initrd
 mv initrd.gz /var/www/html/
 ```
 * 下载地址 http://5.mm/initrd.gz
-
-
-下次测试u盘已录入
-不加pkgsel/include string openssh-server 
-+
-不更新sed -i "s|#d-i pkgsel/upgrade select none|d-i pkgsel/upgrade select none|g" preseed.cfg

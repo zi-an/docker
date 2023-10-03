@@ -1,0 +1,22 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: nginx
+    hostname: nginx.mm
+    image: nginx1.22
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - /home/nginx/:/home/nginx/
+    command: sh -c "nginx & /var/www/html/.go"
+
+  vlmcsd:
+    container_name: vlmcsd
+    hostname: vlmcsd.mm
+    image: vlmcsd1113
+    tty: true
+    ports:
+      - "1688:1688"

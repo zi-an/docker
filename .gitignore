@@ -1,3 +1,4 @@
 # git忽略文件,主要是大文件
 images/-debian12/files/rootfs.tar.xz
 images/vlmcsd1113/binaries.tar.gz
+compose.exe

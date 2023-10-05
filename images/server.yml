@@ -131,7 +131,7 @@ services:
   terminal:
     container_name: terminal
     hostname: 217.mm
-    image: terminal
+    image: terminal1.5
     tty: true
     environment:
       GUACD_HOSTNAME: terminal

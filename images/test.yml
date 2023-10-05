@@ -77,7 +77,7 @@ services:
   test220:
     container_name: test220
     hostname: 220.mm
-    image: wireshark4.0
+    image: debian12.1
     tty: true
     mac_address: 02-20-00-00-00-00
     networks:

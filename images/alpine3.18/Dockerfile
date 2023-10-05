@@ -1,5 +1,5 @@
 FROM scratch
 
-ADD alpine.tar.gz /
+ADD rootfs.tar.gz /
 
 CMD ["/bin/sh"]

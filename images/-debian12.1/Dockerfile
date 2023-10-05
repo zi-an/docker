@@ -1,7 +1,7 @@
 FROM scratch
 #debian12.1
 
-ADD files/rootfs.tar.xz /
+ADD rootfs.tar.xz /
 ENV TZ='CST-8' LANG='zh_CN.UTF-8'
 # 笔记本盒盖问题+apt清华源
 RUN echo "HandleLidSwitch=lock" >> /etc/systemd/logind.conf &&\

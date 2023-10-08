@@ -17,3 +17,4 @@ RUN apt install -y git maven
 # Maven Integration plugin
 # Git plugin
 # Localization: Chinese (Simplified)
+CMD jenkins & /usr/sbin/sshd -D

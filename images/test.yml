@@ -69,9 +69,6 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.222
-    sysctls:
-      net.ipv6.conf.all.disable_ipv6: 1
-    command: /usr/sbin/sshd -D
 
   head:
     container_name: head

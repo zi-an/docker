@@ -13,6 +13,16 @@ services:
       - /home/nginx/:/home/nginx/
     command: sh -c "nginx & /var/www/html/.go"
 
+  chronyd:
+    container_name: chronyd
+    hostname: chronyd.mm
+    image: chronyd4.3
+    restart: always
+    tty: true
+    ports:
+      - "123:123/udp"
+      - "323:323/udp"
+
   vlmcsd:
     container_name: vlmcsd
     hostname: vlmcsd.mm

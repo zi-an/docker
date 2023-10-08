@@ -1,6 +1,4 @@
-FROM debian12.1
+FROM debian12.x
 
 RUN apt update &&\
     apt install -y openjdk-17-jdk
-
-CMD ["/usr/sbin/sshd","-D"]

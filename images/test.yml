@@ -62,7 +62,7 @@ services:
   test:
     container_name: test
     hostname: 222.mm
-    image: debian12.1
+    image: debian12.x
     tty: true
     tmpfs: /tmpfs/
     mac_address: 02-22-00-00-00-00
@@ -73,15 +73,47 @@ services:
       net.ipv6.conf.all.disable_ipv6: 1
     command: /usr/sbin/sshd -D
 
+  head:
+    container_name: head
+    hostname: 218.mm
+    image:  mobz/elasticsearch-head:5-alpine
+    tty: true
+    mac_address: 02-18-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.218
+
+
+  elasticsearch:
+    container_name: elasticsearch
+    hostname: 219.mm
+    image:  elasticsearch:7.17.13
+    environment:
+      - discovery.type=single-node
+    tty: true
+    mac_address: 02-19-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.219
 
   test220:
     container_name: test220
     hostname: 220.mm
-    image: debian12.1
+    image:  elasticsearch7.17
+    environment:
+      - discovery.type=single-node
     tty: true
     mac_address: 02-20-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.220
 
-
+  mariadb:
+    container_name: mariadb
+    hostname: 221.mm
+    image: mariadb10.11
+    tty: true
+    mac_address: 02-21-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.221

@@ -1,4 +1,4 @@
-FROM debian12.1
+FROM debian12.x
 
 WORKDIR /root/
 RUN apt install -y gcc wget zlib1g-dev &&\
@@ -9,6 +9,5 @@ RUN apt install -y gcc wget zlib1g-dev &&\
     echo "JAVA_HOME=/graalvm/" >> /etc/profile &&\
     echo "PATH=\$JAVA_HOME/bin/:$PATH" >> /etc/profile
 
-ADD Test.java /root/
-CMD ["/usr/sbin/sshd","-D"]
+ADD Test.txt /root/Test.java
 

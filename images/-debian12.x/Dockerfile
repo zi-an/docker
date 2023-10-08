@@ -1,5 +1,5 @@
 FROM scratch
-#debian12.1
+#debian12.x
 
 ADD rootfs.tar.xz /
 ENV TZ='CST-8' LANG='zh_CN.UTF-8'
@@ -37,4 +37,4 @@ RUN echo "zh_CN.UTF-8 UTF-8" > /etc/locale.gen &&\
     locale-gen
 
 #这里不能像centos7直接加参数
-CMD ["/usr/sbin/sshd","-D"]
+CMD /usr/sbin/sshd -D

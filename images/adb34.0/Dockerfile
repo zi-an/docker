@@ -1,4 +1,4 @@
-FROM debian12.1
+FROM debian12.x
 
 RUN wget https://dl.google.com/android/repository/platform-tools-latest-linux.zip &&\
     apt install -y unzip &&\
@@ -16,4 +16,3 @@ RUN echo "alias auto='nohup /root/auto.sh &'" >> /etc/profile &&\
     chmod 600 ~/.android/adbkey
 
 #客户端shell里要有执行source /etc/profile
-CMD ["/usr/sbin/sshd","-D"]

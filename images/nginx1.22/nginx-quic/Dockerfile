@@ -1,4 +1,4 @@
-FROM debian12.1
+FROM debian12.x
 
 # 建议使用火狐调试
 RUN echo "deb https://nginx.org/packages/mainline/debian bookworm nginx" > /etc/apt/sources.list.d/nginx.list &&\

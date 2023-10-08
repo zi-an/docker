@@ -1,4 +1,4 @@
-FROM debian12.1
+FROM debian12.x
 
 RUN apt install -y gcc libpcre3-dev libssl-dev zlib1g-dev make
 RUN wget https://nginx.org/download/nginx-1.24.0.tar.gz &&\

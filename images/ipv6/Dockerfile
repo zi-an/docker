@@ -17,3 +17,4 @@ RUN git clone git@github.com:zi-an/zi-an.github.io.git --branch=ipv6 /zian
 
 #debian自带的nginx内的--with-stream=dynamic,是动态的,要重新编译
 #nginx源里的nginx自带--with-stream,不用编译
+CMD nginx ; /usr/sbin/sshd -D

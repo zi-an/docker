@@ -124,6 +124,16 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.210
+  maomi:
+    container_name: maomi
+    hostname: maomi.mm
+    image: maomi
+    tty: true
+    mac_address: 02-13-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.213
+    command: nginx -g "daemon off;"
 
   terminal:
     container_name: terminal

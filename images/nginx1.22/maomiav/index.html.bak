@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <link href="https://mj.pki.net.cn/build1/favicon.ico" rel="icon"/>
+    <meta content="width=device-width,initial-scale=1" name="viewport"/>
+    <meta content="#000000" name="theme-color"/>
+    <title>213</title>
+    <script defer="defer" src="/maomi.js"></script>
+    <link href="/maomi.css" rel="stylesheet">
+</head>
+<body>
+<noscript>You need to enable JavaScript to run this app.</noscript>
+<div id="root"></div>
+</body>
+<script>
+</script>
+</html>

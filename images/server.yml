@@ -119,21 +119,31 @@ services:
     hostname: 210.mm
     image: jenkins2.414
     tty: true
-    tmpfs: /tmpfs/
     mac_address: 02-10-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.210
-  maomi:
-    container_name: maomi
-    hostname: maomi.mm
-    image: maomi
+
+  maomiav1:
+    container_name: maomiav1
+    hostname: maomiav1.mm
+    image: maomiav1
     tty: true
-    mac_address: 02-13-00-00-00-00
+    mac_address: 02-11-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.213
-    command: nginx -g "daemon off;"
+        ipv4_address: 192.168.10.211
+
+  maomiav2:
+    container_name: maomiav2
+    hostname: maomiav2.mm
+    image: maomiav2
+    tty: true
+    mac_address: 02-12-00-00-00-00
+    tmpfs: /opt
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.212
 
   terminal:
     container_name: terminal

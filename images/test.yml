@@ -59,16 +59,7 @@ services:
         ipv4_address: 192.168.10.213
     command: sh -c "nginx & /usr/sbin/sshd -D"
 
-  test:
-    container_name: test
-    hostname: 222.mm
-    image: debian12.x
-    tty: true
-    tmpfs: /tmpfs/
-    mac_address: 02-22-00-00-00-00
-    networks:
-      macvlan:
-        ipv4_address: 192.168.10.222
+
 
   head:
     container_name: head
@@ -105,13 +96,24 @@ services:
       macvlan:
         ipv4_address: 192.168.10.220
 
-  mariadb:
-    container_name: mariadb
+  t221:
+    container_name: t221
     hostname: 221.mm
-    image: mariadb10.11
+    image: maomiav2
     tty: true
     mac_address: 02-21-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 192.168.10.221
+    command:  sh -c "nginx ; /usr/sbin/sshd -D"
 
+  test:
+    container_name: test
+    hostname: 222.mm
+    image: debian12.x
+    tty: true
+    tmpfs: /tmpfs/
+    mac_address: 02-22-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 192.168.10.222

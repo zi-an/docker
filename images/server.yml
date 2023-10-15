@@ -143,6 +143,7 @@ services:
     networks:
       macvlan:
         ipv4_address: 192.168.10.212
+    command: sh -c "nginx && /sbin/sshd -D"
 
   terminal:
     container_name: terminal

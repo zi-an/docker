@@ -20,6 +20,5 @@ RUN chmod 700 /update.sh &&\
     sed -i "s|www.maomi.com|www.$maomi.com|g" /etc/nginx/sites-enabled/default
 
 CMD nginx -g "daemon off;"
-# 浏览器会因缓存原因,更新不及时
-# 定时任务
+# 定时任务,五分钟一次,docker exec -it 需要创建控制台,这里不适用 -it 直接执行
 # */5 * * * * /bin/docker exec maomiav2 /update.sh

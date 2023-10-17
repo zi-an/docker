@@ -17,3 +17,6 @@ sed -i "s|location /|location /default|g" /etc/nginx/sites-enabled/default &&\
 sed -i "42 i location =/ {rewrite / /index/home.html redirect;}" /etc/nginx/sites-enabled/default &&\
 sed -i "42 i location / {proxy_pass https://maomi.com/;}" /etc/nginx/sites-enabled/default
 ```
+
+detail->使用永久缓存
+list->使用1小时

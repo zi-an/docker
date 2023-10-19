@@ -11,8 +11,8 @@
 apt -y update
 apt -y install xorriso isolinux syslinux-utils p7zip-full
 
-wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso
-7z x debian-12.1.0-amd64-netinst.iso -oiso
+wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso
+7z x debian-12.2.0-amd64-netinst.iso -oiso
 chmod +w -R iso/install.amd/
 gunzip iso/install.amd/initrd.gz
 wget https://www.debian.org/releases/bookworm/example-preseed.txt -O preseed.cfg
@@ -98,7 +98,7 @@ sed -i "373ctasksel tasksel/first multiselect standard ssh-server" preseed.cfg
 
 #sed -i "s|#d-i pkgsel/include string openssh-server|d-i pkgsel/include string openssh-server #|g" preseed.cfg
 sed -i "s|#d-i pkgsel/upgrade select none|d-i pkgsel/upgrade select none|g" preseed.cfg
-echo "d-i preseed/late_command string in-target wget https://zi-an.github.io/install/auto.sh -O /usr/sbin/auto;in-target chmod 700 /usr/sbin/auto;in-target auto" >> preseed.cfg
+echo "d-i preseed/late_command string in-target wget https://zi-an.github.io/debian/auto.sh -O /usr/sbin/auto;in-target chmod 700 /usr/sbin/auto;in-target auto" >> preseed.cfg
 ```
 
 # 暂无改硬盘的方法,硬盘有数据不会自动选择
@@ -120,10 +120,12 @@ tasksel --task-packages standard ssh-server
 * wget 7.mm/initrd.gz;gunzip initrd.gz
 ```
 apt -y update
-apt -y install debconf-utils xorriso isolinux syslinux-utils p7zip-full nginx
+apt -y install debconf-utils xorriso isolinux syslinux-utils p7zip-full nginx cpio
 debconf-get-selections --installer > /var/www/html/1.txt
-wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.1.0-amd64-netinst.iso
-7z x debian-12.1.0-amd64-netinst.iso -oiso
+wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso
+
+
+7z x debian-12.2.0-amd64-netinst.iso -oiso
 chmod +w -R iso/install.amd/
 cp iso/install.amd/initrd.gz .
 

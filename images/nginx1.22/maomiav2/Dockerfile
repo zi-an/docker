@@ -21,4 +21,4 @@ RUN chmod 700 /update.sh &&\
 
 CMD nginx -g "daemon off;"
 # 定时任务,五分钟一次,docker exec -it 需要创建控制台,这里不适用 -it 直接执行
-# */5 * * * * /bin/docker exec maomiav2 /update.sh
+# */5 * * * * docker exec maomiav2 /update.sh

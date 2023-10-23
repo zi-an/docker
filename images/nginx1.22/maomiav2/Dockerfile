@@ -1,8 +1,11 @@
 FROM debian12.x
 
-RUN apt install nginx -y
+# 安装nginx,日志优化
+RUN apt install nginx -y &&\
+    sed -i 's|access.log;|access.log main;|g' /etc/nginx/nginx.conf &&\
+    sed -i '13 i log_format main "$remote_addr [$time_iso8601] [$request] $status $request_time";' /etc/nginx/nginx.conf
 
-# 使用了proxy_pass+cache缓存加速,配置和实际大小不符,导致无法缓存
+# 使用了proxy_pass+cache缓存加速
 RUN sed -i '13 i proxy_cache_path /opt keys_zone=my_cache:10m;proxy_cache my_cache;proxy_cache_valid 200 1h;proxy_set_header Accept-Encoding "";' /etc/nginx/nginx.conf
 
 RUN sed -i 's|location /|location /default|g' /etc/nginx/sites-enabled/default &&\

@@ -19,3 +19,12 @@ proxy_store on; #打开持久化存储
 proxy_temp_path /var/www/html; #持久化存储目录,建议与root或者alias相同
 if (!-e $request_filename){} #使用if判断文件是否存在,不存在时进行下一步操作
 ```
+
+## 日志输入格式
+* $request_time为请求处理时间（以秒为单位），分辨率为毫秒
+* log_format的main是其ID,需要在access_log后面注明才会使用,否则都是默认日志
+* time_iso8601比较标准,默认的time_local不好看
+```
+log_format  main  '$remote_addr [$time_iso8601] $request $status $request_time';
+access_log  logs/access.log  main;
+```

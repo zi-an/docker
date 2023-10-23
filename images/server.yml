@@ -140,7 +140,7 @@ services:
     image: maomiav2
     tty: true
     mac_address: 02-12-00-00-00-00
-    tmpfs: /opt
+    tmpfs: /var/www/html/tmp/
     volumes:
       - /home/maomiav:/var/www/html/
     networks:

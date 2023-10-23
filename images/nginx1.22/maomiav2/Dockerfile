@@ -6,10 +6,9 @@ RUN apt install nginx -y
 RUN sed -i '13 i proxy_cache_path /opt keys_zone=my_cache:10m;proxy_cache my_cache;proxy_cache_valid 200 1h;proxy_set_header Accept-Encoding "";' /etc/nginx/nginx.conf
 
 RUN sed -i 's|location /|location /default|g' /etc/nginx/sites-enabled/default &&\
-    sed -i '42 i location ~ ^/(\\w+)/detail-(\\w+).html$ {proxy_store on;proxy_temp_path /var/www/html;if (!-e $request_filename){proxy_pass https://www.maomi.com;}}' /etc/nginx/sites-enabled/default &&\
+    sed -i '42 i location ~ .detail. {proxy_store /var/www/html$request_uri;if (!-e $request_filename){proxy_pass https://www.maomi.com;}}' /etc/nginx/sites-enabled/default &&\
     sed -i '42 i location / {proxy_pass https://www.maomi.com;proxy_cache_key $request_uri;}' /etc/nginx/sites-enabled/default &&\
     sed -i '42 i location =/ {rewrite / /index/home.html redirect;}' /etc/nginx/sites-enabled/default
-#   sed -i '42 i proxy_set_header Accept-Encoding "";proxy_hide_header Set-Cookie;' /etc/nginx/sites-enabled/default
 
 ENV maomi=www.f89bb88d4062.com
 ADD update.sh /

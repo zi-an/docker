@@ -30,3 +30,13 @@ services:
     tty: true
     ports:
       - "1688:1688"
+
+  dnsmasq:
+    container_name: dnsmasq
+    hostname: dnsmasq.mm
+    image: dnsmasq2.89
+    tty: true
+    volumes:
+      - /etc/hosts:/etc/hosts
+    ports:
+      - "53:53/udp"

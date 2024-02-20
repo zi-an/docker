@@ -14,11 +14,11 @@ RUN apt update &&\
     echo 'y' | apt install -y openssh-server
 
 # vim-minimal在centos8.4的配置文件,对应在debian中的vim-tiny,解决i模式下的复制以及光标移动问题
-ADD https://zi-an.github.io/debian/virc /etc/vim/vimrc.tiny
+ADD virc /etc/vim/vimrc.tiny
+ADD keys.zip /
 
 # zip -P zian keys.tar.gz *ed25519*
-RUN wget https://zi-an.github.io/debian/keys.zip &&\
-    sed -i "22iHostKey /etc/ssh/ssh_host_ed25519_key" /etc/ssh/sshd_config &&\
+RUN sed -i "22iHostKey /etc/ssh/ssh_host_ed25519_key" /etc/ssh/sshd_config &&\
     sed -i "s|HashKnownHosts yes|HashKnownHosts no|g" /etc/ssh/ssh_config &&\
     rm /etc/ssh/ssh_host_*key* &&\
     unzip -P zian keys.zip -d /etc/ssh/ &&\

@@ -11,7 +11,7 @@ RUN sed -i "s|location /|location /default|g" /etc/nginx/sites-enabled/default &
     sed -i "42 i location =/ {rewrite / /page/shipin/13 redirect;}" /etc/nginx/sites-enabled/default
 
 ADD index.html.bak /var/www/html/index.html
-ADD maomi.js.bak /var/www/html/maomi.js
-ADD maomi.css.bak /var/www/html/maomi.css
+ADD 2023/maomi.js.bak /var/www/html/maomi.js
+ADD 2023/maomi.css.bak /var/www/html/maomi.css
 
 CMD nginx -g "daemon off;"

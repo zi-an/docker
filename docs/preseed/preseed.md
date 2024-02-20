@@ -1,6 +1,7 @@
 # debian自动化安装
 
 * https://www.debian.org/releases/stable/amd64/apbs02.zh-cn.html#preseed-loading
+* https://www.debian.org/releases/bookworm/arm64/
 * demo https://www.debian.org/releases/bookworm/example-preseed.txt
 * https://debian-handbook.info/get/now/
 * https://blog.csdn.net/sinolover/article/details/120778961
@@ -11,8 +12,8 @@
 apt -y update
 apt -y install xorriso isolinux syslinux-utils p7zip-full
 
-wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso
-7z x debian-12.2.0-amd64-netinst.iso -oiso
+wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
+7z x debian-12.5.0-amd64-netinst.iso -oiso
 chmod +w -R iso/install.amd/
 gunzip iso/install.amd/initrd.gz
 wget https://www.debian.org/releases/bookworm/example-preseed.txt -O preseed.cfg
@@ -81,24 +82,24 @@ sed -i "s|#d-i apt-setup/security_host string security.debian.org|d-i apt-setup/
 sed -i "s|#d-i debian-installer/locale string en_GB|d-i debian-installer/locale string zh_CN|g" preseed.cfg
 sed -i "s|#d-i clock-setup/ntp-server string ntp.example.com|d-i clock-setup/ntp-server string ntp.aliyun.com|g" preseed.cfg
 
-
-sed -i "s|somehost|5.mm|g" preseed.cfg
 sed -i "s|unassigned-hostname|k610d|g" preseed.cfg
+sed -i "s|unassigned-domain|mm|g" preseed.cfg
 sed -i "s|#d-i netcfg/hostname string somehost|d-i netcfg/hostname string k610d|g" preseed.cfg
-sed -i "s|#d-i netcfg/dhcp_hostname string radish|d-i netcfg/dhcp_hostname string k610d|g" preseed.cfg
 
 
 sed -i "s|#d-i passwd/root-password password r00tme|d-i passwd/root-password password 1|g" preseed.cfg
 sed -i "s|#d-i passwd/root-password-again password r00tme|d-i passwd/root-password-again password 1|g" preseed.cfg
+sed -i "s|#d-i passwd/username string debian|d-i passwd/username string docker|g" preseed.cfg
+sed -i "s|#d-i passwd/user-password password insecure|d-i passwd/user-password password 1|g" preseed.cfg
+sed -i "s|#d-i passwd/user-password-again password insecure|d-i passwd/user-password-again password 1|g" preseed.cfg
 
 
 sed -i "s|#d-i passwd/make-user|d-i passwd/make-user|g" preseed.cfg
 sed -i "s|#popularity-contest|popularity-contest|g" preseed.cfg
 sed -i "373ctasksel tasksel/first multiselect standard ssh-server" preseed.cfg
 
-#sed -i "s|#d-i pkgsel/include string openssh-server|d-i pkgsel/include string openssh-server #|g" preseed.cfg
 sed -i "s|#d-i pkgsel/upgrade select none|d-i pkgsel/upgrade select none|g" preseed.cfg
-echo "d-i preseed/late_command string in-target wget https://zi-an.github.io/debian/auto.sh -O /usr/sbin/auto;in-target chmod 700 /usr/sbin/auto;in-target auto" >> preseed.cfg
+echo "d-i preseed/late_command string in-target wget https://zian.netlify.app/debian/auto.sh -O /usr/sbin/auto;in-target chmod 700 /usr/sbin/auto;in-target auto" >> preseed.cfg
 ```
 
 # 暂无改硬盘的方法,硬盘有数据不会自动选择
@@ -122,10 +123,10 @@ tasksel --task-packages standard ssh-server
 apt -y update
 apt -y install debconf-utils xorriso isolinux syslinux-utils p7zip-full nginx cpio
 debconf-get-selections --installer > /var/www/html/1.txt
-wget https://saimei.ftp.acc.umu.se/debian-cd/current/amd64/iso-cd/debian-12.2.0-amd64-netinst.iso
+wget https://cdimage.debian.org/debian-cd/current/amd64/iso-cd/debian-12.5.0-amd64-netinst.iso
 
 
-7z x debian-12.2.0-amd64-netinst.iso -oiso
+7z x debian-12.5.0-amd64-netinst.iso -oiso
 chmod +w -R iso/install.amd/
 cp iso/install.amd/initrd.gz .
 
@@ -134,4 +135,4 @@ echo preseed.cfg | cpio -H newc -o -A -F initrd
 gzip initrd
 mv initrd.gz /var/www/html/
 ```
-* 下载地址 http://5.mm/initrd.gz
+* 下载地址 http://222.mm/initrd.gz

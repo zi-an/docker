@@ -1,4 +1,9 @@
 # git忽略文件,主要是大文件
-**/rootfs.tar.gz
-**/rootfs.tar.xz
+images/-debian12.x/keys.zip
+images/-debian12.x/rootfs.tar.xz
+images/-debian12.x/virc
+images/alpine3.18/alpine.tar.gz
+images/vlmcsd1113/binaries.tar.gz
+images/xray1.8.7/Xray-linux-64.zip
+
 compose.exe

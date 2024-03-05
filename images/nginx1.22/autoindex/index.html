@@ -14,8 +14,8 @@
 <body style="font-size: 39px">
 <form action="/post" enctype="multipart/form-data" method="post">
     <div class="btn-group">
-        <input style="position: fixed;top: 0px;left: 0px;" type="file" name="file" placeholder="选中文件">
-        <input style="position: fixed;top:0px;right: 0px;" type="submit" value="上传文件">
+        <input style="position: fixed;top: 0;left: 0;" type="file" name="file" placeholder="选中文件">
+        <input style="position: fixed;top:0;right: 0;" type="submit" value="上传文件">
     </div>
 </form>
 
@@ -80,7 +80,7 @@
     function parentDirectory(from) {
         let result = from.substr(0, from.lastIndexOf('\/'));
         result = result.substr(0, result.lastIndexOf('\/')) + '\/';
-        if (result.indexOf('\/') != 0) {
+        if (result.indexOf('\/') !== 0) {
             return "/";
         } else {
             return result;

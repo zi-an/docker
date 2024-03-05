@@ -1,0 +1,77 @@
+version: "3.8"
+
+services:
+  nginx:
+    container_name: nginx
+    hostname: nginx.mm
+    image: nginx1.22
+    restart: always
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - /home/nginx/:/home/nginx/
+    command: sh -c "nginx & /var/www/html/.go"
+
+  chronyd:
+    container_name: chronyd
+    hostname: chronyd.mm
+    image: chronyd4.3
+    restart: always
+    tty: true
+    ports:
+      - "123:123/udp"
+      - "323:323/udp"
+
+  vlmcsd:
+    container_name: vlmcsd
+    hostname: vlmcsd.mm
+    image: vlmcsd1113
+    tty: true
+    ports:
+      - "1688:1688"
+
+  dnsmasq:
+    container_name: dnsmasq
+    hostname: dnsmasq.mm
+    image: dnsmasq2.89
+    tty: true
+    volumes:
+      - /etc/hosts:/etc/hosts
+    ports:
+      - "53:53/udp"
+
+  xunlei:
+    container_name: xunlei
+    hostname: xunlei.mm
+    image: docker.io/cnk3x/xunlei
+    user: root
+    privileged: true
+    tty: true
+    volumes:
+      - /home/nginx/xunlei/:/xunlei/downloads/
+    environment:
+      - XL_WEB_PORT=996
+    ports:
+      - "996:996"
+
+  maomiav:
+    container_name: maomiav
+    hostname: maomiav.mm
+    image: maomiav
+    tty: true
+    ports:
+      - "213:213"
+# 需要手动改端口: sed -i 's| 80 | 213 |g' /etc/nginx/sites-enabled/default
+
+  test:
+    container_name: test
+    hostname: test.mm
+    image: debian12.x
+    tty: true
+    tmpfs: /tmpfs/
+    volumes:
+      - /home/nginx/temp/:/temp/
+    ports:
+      - "2222:22"
+# 默认进入temp目录操作: echo "cd /temp" >> .bashrc

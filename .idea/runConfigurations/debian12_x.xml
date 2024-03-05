@@ -3,6 +3,7 @@
     <deployment type="dockerfile">
       <settings>
         <option name="imageTag" value="debian12.x" />
+        <option name="buildCliOptions" value="--rm " />
         <option name="containerName" value="" />
         <option name="sourceFilePath" value="images/-debian12.x/Dockerfile" />
       </settings>

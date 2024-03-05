@@ -30,7 +30,8 @@
         //获取页面链接参数
         from = window.location.href;
         from = from.substr(from.indexOf("=") + 1, from.length);
-        if (from.length == window.location.href.length) location.href = '/?from=/';
+        if (from.indexOf('&') > 0) from = from.substring(0, from.indexOf('&'));
+        if (from.length === window.location.href.length) location.href = '/?from=/';
         loadJson("./json" + from);
     })
 
@@ -42,19 +43,22 @@
                 for (let i = 0; i < data.length; i++) {
                     result += '<tr>';
                     //result += '<td>' + data[i].name + '</td>';
-                    if (data[i].type == 'directory') {
+                    if (data[i].type === 'directory') {
                         let url = "./?from=" + from + '/' + data[i].name + '/';
                         url = url.replace("\/\/", "\/");
                         //result += '<td><a onclick="loadJson(\'' + url + '\')">' + data[i].name + '(目录)</a></td>';
                         //重新加载,已放弃
                         result += '<td><a  href="' + url + '">.\/' + '' + data[i].name + '\/</a></td>';
                         //带参跳转,可返回
+                        result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+                    } else if (data[i].name.indexOf('.ts') > 0) {
+                        //不加载ts文件,防止查看m3u8时看到一堆零散文件
                     } else {
                         let url = baseUrl + data[i].name;
                         //url = url.replace("/json/", "/");
                         result += '<td><a href="' + url + '">' + data[i].name + '</a></td>';
+                        result += '<td>' + dateFormat(data[i].mtime) + '</td>';
                     }
-                    result += '<td>' + dateFormat(data[i].mtime) + '</td>';
                     result += '</tr>'
                 }
                 $('#load').append(result);
@@ -89,7 +93,7 @@
   root   html;
   index  index.html;
  }
-		
+
  location /json/ {
  add_header Access-Control-Allow-Origin *;
             add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';

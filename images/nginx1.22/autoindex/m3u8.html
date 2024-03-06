@@ -1,23 +1,18 @@
 <!DOCTYPE html>
-<html lang="zh">
-
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>目录</title>
-    <!--<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
+    <title>m3u8</title>
     <link rel="stylesheet" href="./bootstrap.min.css">
-    <script src="./jquery.min.js">
-    </script>
+    <script src="./jquery.min.js"></script>
 </head>
-
-<body style="font-size: 39px">
-<form action="/post" enctype="multipart/form-data" method="post">
-    <div class="btn-group">
-        <input style="position: fixed;top: 0;left: 0;" type="file" name="file" placeholder="选中文件">
-        <input style="position: fixed;top:0;right: 0;" type="submit" value="上传文件">
-    </div>
+<body>
+<form action="/m3u8er" method="post">
+    <input name="uri" required="required" value=""/>
+    <input name="name" required="required" value=""/>
+    <input type="submit" value="下载">
 </form>
+
 
 <div class="panel panel-default">
     <table class="table" id="load">

@@ -11,6 +11,7 @@ services:
       - "80:80"
     volumes:
       - /home/nginx/:/home/nginx/
+    working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
 
   chronyd:

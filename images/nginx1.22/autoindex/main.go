@@ -4,7 +4,9 @@ import (
 	"fmt"
 	"io"
 	"net/http"
+	"net/url"
 	"os"
+	"os/exec"
 	"strings"
 	"time"
 )
@@ -15,6 +17,7 @@ func main() {
 	}
 	mux := http.NewServeMux()
 	mux.HandleFunc("/post", post)
+	mux.HandleFunc("/m3u8er", m3u8er)
 	server.Handler = mux
 	server.ListenAndServe()
 }
@@ -33,11 +36,11 @@ func post(w http.ResponseWriter, r *http.Request) {
 		defer imgFile.Close()
 		files := r.MultipartForm.File        //获取表单中的信息
 		imgName := files["file"][0].Filename //获取表单文件中name为file的数据
-		imgName = "/home/nginx" + from + imgName
+		imgName = "." + from + imgName
 
 		_, err := os.Stat(imgName) //判断文件是否存在,在则隐藏并添加时间戳
 		if err == nil {
-			newName := "/home/nginx" + from + "." + files["file"][0].Filename + "." + time.Now().Format("20060102_150405")
+			newName := "." + from + "." + files["file"][0].Filename + "." + time.Now().Format("20060102_150405")
 			os.Rename(imgName, newName)
 		}
 
@@ -51,9 +54,19 @@ func post(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func m3u8er(w http.ResponseWriter, r *http.Request) {
+	uri := r.PostFormValue("uri")
+	uri,_=url.QueryUnescape(uri)
+	name := r.PostFormValue("name")
+        fmt.Println(uri,":",name)
+	exec.Command("m3u8downloader", uri, name).Run()
+	http.Redirect(w, r, "/?from=/m3u8/", http.StatusSeeOther)
+}
+
 /*
 使用nginx代理
 location /post {proxy_pass http://127.0.0.1:8888;client_max_body_size 8192m;}
+location /m3u8 {proxy_pass http://127.0.0.1:8888;}
 
 测试数据
 curl http://127.0.0.1:8888/post -F file=@bank.jpg -H "Referer: http://127.0.0.1/?from=/upload/"

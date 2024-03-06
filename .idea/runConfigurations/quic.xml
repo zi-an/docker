@@ -4,7 +4,7 @@
       <settings>
         <option name="imageTag" value="quic" />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="images/nginx-quic/Dockerfile" />
+        <option name="sourceFilePath" value="images/nginx1.22/nginx-quic/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

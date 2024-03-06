@@ -7,5 +7,8 @@
 ```shell
 wget -Uri https://zi-an.github.io/debian/virc -OutFile virc
 wget -Uri https://zi-an.github.io/debian/keys.zip -OutFile keys.zip
+```
+
+```shell
 wget -Uri https://github.com/debuerreotype/docker-debian-artifacts/raw/fd3102585b5636ea53fbfcf122a1d373720540fc/bookworm/rootfs.tar.xz -OutFile rootfs.tar.xz
 ```

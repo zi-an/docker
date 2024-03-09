@@ -13,6 +13,7 @@ services:
       - /home/nginx/:/home/nginx/
     working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
+    #需手动创建m3u8目录及安装ffmpeg
 
   chronyd:
     container_name: chronyd

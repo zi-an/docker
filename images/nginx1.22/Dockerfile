@@ -1,7 +1,7 @@
 FROM debian12.x
 
 # debian自带的nginx内的--with-stream=dynamic,是动态的,要重新编译,可能无法使用straem进行tcp转发
-RUN apt install nginx  -y
+RUN apt install nginx -y
 
 RUN mkdir /home/nginx/ &&\
     wget https://zian.netlify.app/debian/upload.go -O /var/www/html/.go &&\

@@ -66,6 +66,14 @@ services:
       - "213:213"
 # 需要手动改端口: sed -i 's| 80 | 213 |g' /etc/nginx/sites-enabled/default
 
+  socket5:
+    container_name: socket5
+    hostname: socket5.mm
+    image: socket5
+    tty: true
+    ports:
+      - "55555:55555"
+
   test:
     container_name: test
     hostname: test.mm
@@ -76,4 +84,5 @@ services:
       - /home/nginx/temp/:/temp/
     ports:
       - "2222:22"
+      - "9999:80"
 # 默认进入temp目录操作: echo "cd /temp" >> .bashrc

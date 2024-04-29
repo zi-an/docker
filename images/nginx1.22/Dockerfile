@@ -8,6 +8,7 @@ RUN mkdir /home/nginx/ &&\
     chmod 777 /var/www/html/.go &&\
     sed -i "s|location / {|location /bak {|g" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i client_max_body_size 8192m;" /etc/nginx/sites-enabled/default &&\
+    sed -i "42 i location /get {proxy_pass http://127.0.0.1:8888;proxy_set_header X-Real-IP \$remote_addr;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location /post {proxy_pass http://127.0.0.1:8888;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location /m3u8er {proxy_pass http://127.0.0.1:8888;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location /json/{autoindex on;autoindex_format json;alias /home/nginx/;}" /etc/nginx/sites-enabled/default &&\

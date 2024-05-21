@@ -40,6 +40,7 @@ services:
     tty: true
     volumes:
       - /etc/hosts:/etc/hosts
+      - /logs/dnsmasq.log:/var/log/dnsmasq/dnsmasq.log
     ports:
       - "53:53/udp"
 
@@ -73,6 +74,14 @@ services:
     tty: true
     ports:
       - "55555:55555"
+
+  squid:
+    container_name: squid5.7
+    hostname: squid
+    image: squid5.7
+    tty: true
+    ports:
+      - "11111:3128"
 
   test:
     container_name: test

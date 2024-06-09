@@ -15,6 +15,19 @@ services:
     command: sh -c "nginx & /var/www/html/.go"
     #需手动创建m3u8目录及安装ffmpeg
 
+  webdav:
+  # 文件配置备份系统
+    container_name: webdav
+    hostname: webdav
+    image: webdav
+    restart: always
+    tty: true
+    ports:
+      - "5005:80"
+    volumes:
+      - /home/webdav:/var/www/html
+    command: "nginx -g 'daemon off;'"
+
   chronyd:
     container_name: chronyd
     hostname: chronyd.mm

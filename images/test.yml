@@ -7,9 +7,9 @@ networks:
       parent: enp8s0
     ipam:
       config:
-        - subnet: 192.168.10.200/24
-          ip_range: 192.168.10.200/28
-          gateway: 192.168.10.1
+        - subnet: 10.0.0.200/24
+          ip_range: 10.0.0.200/28
+          gateway: 10.0.0.1
 
 services:
   ffmpeg:
@@ -21,7 +21,7 @@ services:
     mac_address: 02-10-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.210
+        ipv4_address: 10.0.0.210
     command: sh -c "nginx & /usr/sbin/sshd -D"
 
   rtmp:
@@ -33,7 +33,7 @@ services:
     mac_address: 02-11-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.211
+        ipv4_address: 10.0.0.211
     command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
 
   flv:
@@ -45,7 +45,7 @@ services:
     mac_address: 02-12-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.212
+        ipv4_address: 10.0.0.212
     command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
 
   quic:
@@ -56,7 +56,7 @@ services:
     mac_address: 02-13-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.213
+        ipv4_address: 10.0.0.213
     command: sh -c "nginx & /usr/sbin/sshd -D"
 
 
@@ -69,7 +69,7 @@ services:
     mac_address: 02-18-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.218
+        ipv4_address: 10.0.0.218
 
 
   elasticsearch:
@@ -82,7 +82,7 @@ services:
     mac_address: 02-19-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.219
+        ipv4_address: 10.0.0.219
 
   test220:
     container_name: test220
@@ -94,7 +94,7 @@ services:
     mac_address: 02-20-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.220
+        ipv4_address: 10.0.0.220
 
   test221:
     container_name: test221
@@ -104,7 +104,7 @@ services:
     mac_address: 02-21-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.221
+        ipv4_address: 10.0.0.221
 #    command:  sh -c "nginx ; /usr/sbin/sshd -D"
 
   test:
@@ -113,7 +113,9 @@ services:
     image: debian12.x
     tty: true
     tmpfs: /tmpfs/
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
     mac_address: 02-22-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 192.168.10.222
+        ipv4_address: 10.0.0.222

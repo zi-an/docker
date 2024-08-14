@@ -4,7 +4,9 @@ ENV JENKINS_PORT=80
 
 RUN echo "deb https://pkg.jenkins.io/debian-stable binary/" > /etc/apt/sources.list.d/jenkins.list &&\
     apt update --allow-insecure-repositories &&\
-    apt install -y jenkins openjdk-17-jdk --allow-unauthenticated &&\
+    apt install -y openjdk-17-jdk
+
+RUN apt install -y jenkins --allow-unauthenticated &&\
     echo "export JENKINS_PORT=80" >> /etc/profile &&\
     echo "cat /root/.jenkins/secrets/initialAdminPassword" >> /root/.bashrc
 #启动命令jenkins,一般使用nohup jenkins &

@@ -57,6 +57,15 @@ services:
     ports:
       - "53:53/udp"
 
+  dot:
+    container_name: dot
+    hostname: dot.mm
+    image: dot
+    tty: true
+    ports:
+      - "853:853/udp"
+    command: "nginx -g 'daemon off;'"
+
   xunlei:
     container_name: xunlei
     hostname: xunlei.mm
@@ -104,6 +113,7 @@ services:
     tmpfs: /tmpfs/
     volumes:
       - /home/nginx/temp/:/temp/
+    working_dir: /temp
     ports:
       - "2222:22"
       - "9999:80"

@@ -110,7 +110,7 @@ services:
   test:
     container_name: test
     hostname: 222.mm
-    image: debian12.x
+    image: idea2024.1.6
     tty: true
     tmpfs: /tmpfs/
     volumes:

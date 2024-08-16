@@ -5,7 +5,7 @@ RUN wget https://download.jetbrains.com/idea/ideaIU-2024.1.6.tar.gz &&\
     rm ideaIU-2024.1.6.tar.gz
 
 RUN echo "X11UseLocalhost no" >> /etc/ssh/sshd_config &&\
-    echo "alias idea=/usr/idea-IU-241.19072.14/bin/idea.sh" >> .bashrc &&\
+    echo "alias idea='/usr/idea-IU-241.19072.14/bin/idea.sh &'" >> /root/.bashrc &&\
     apt install -y fonts-wqy-microhei libxtst6 libxi6 xterm
 
 # 2024.1 之后只能本地构建后上传到服务器，需要安装docker才能使用，所以放到服务器使用

@@ -2,7 +2,7 @@ FROM debian12.x
 
 RUN echo "X11UseLocalhost no" >> /etc/ssh/sshd_config &&\
     echo "alias idea='/usr/idea/bin/idea.sh &'" >> /root/.bashrc &&\
-    echo  "alias java=/usr/idea/jbr/bin/java" >> /root/.bashrc &&\
+    echo "alias java=/usr/idea/jbr/bin/java" >> /root/.bashrc &&\
     apt install -y fonts-wqy-microhei libxtst6 libxi6 xterm
 
 #RUN wget https://download.jetbrains.com/idea/ideaIU-2024.1.6.tar.gz &&\

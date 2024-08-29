@@ -1,5 +1,5 @@
 FROM scratch
-#debian12.x
+#debian12.x --force-rm
 
 ADD rootfs.tar.xz /
 ENV TZ='CST-8' LANG='zh_CN.UTF-8'

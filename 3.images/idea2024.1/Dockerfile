@@ -11,3 +11,4 @@ RUN echo "X11UseLocalhost no" >> /etc/ssh/sshd_config &&\
 
 # 2024.1 之后只能本地构建后上传到服务器，需要安装docker才能使用，所以放到服务器使用
 # 最后能远程构建的是2023.3
+# https://github.com/zi-an/soft/blob/windows/idea/jetbra-2023.3.4.zip

@@ -4,7 +4,8 @@ networks:
   macvlan:
     driver: macvlan
     driver_opts:
-      parent: enp8s0
+      #parent: enp8s0
+      parent: enp6s0
     ipam:
       config:
         - subnet: 10.0.0.200/24
@@ -84,14 +85,18 @@ services:
       macvlan:
         ipv4_address: 10.0.0.219
 
-  test220:
-    container_name: test220
+  idea:
+    container_name: idea
     hostname: 220.mm
-    image:  elasticsearch7.17
-    environment:
-      - discovery.type=single-node
+    image: idea2024.1
     tty: true
-    mac_address: 02-20-00-00-00-00
+    tmpfs: /tmpfs/
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/jetbrains/idea-IU-241.19072.14:/usr/idea/
+      - /home/jetbrains/jetbra:/usr/jetbra/
+      - /home/jetbrains/.m2:/root/.m2
+    mac_address: 02-22-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 10.0.0.220
@@ -107,15 +112,11 @@ services:
         ipv4_address: 10.0.0.221
 #    command:  sh -c "nginx ; /usr/sbin/sshd -D"
 
-  test:
-    container_name: test
+  test222:
+    container_name: test222
     hostname: 222.mm
-    image: idea2024.1
+    image: debian12.x
     tty: true
-    tmpfs: /tmpfs/
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - /home/jetbrains/idea-IU-241.19072.14:/usr/idea/
     mac_address: 02-22-00-00-00-00
     networks:
       macvlan:

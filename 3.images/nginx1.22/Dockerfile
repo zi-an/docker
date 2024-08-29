@@ -4,7 +4,7 @@ FROM debian12.x
 RUN apt install nginx -y
 
 RUN mkdir /home/nginx/ &&\
-    wget https://zian.netlify.app/debian/upload.go -O /var/www/html/.go &&\
+    wget https://gitdl.cn/https://github.com/zi-an/zi-an.github.io/blob/master/debian/upload.go -O /var/www/html/.go &&\
     chmod 777 /var/www/html/.go &&\
     sed -i "s|location / {|location /bak {|g" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i client_max_body_size 8192m;" /etc/nginx/sites-enabled/default &&\

@@ -4,7 +4,8 @@ networks:
   macvlan:
     driver: macvlan
     driver_opts:
-      parent: enp8s0
+      #parent: enp8s0
+      parent: enp6s0
     ipam:
       config:
         - subnet: 10.0.0.200/24

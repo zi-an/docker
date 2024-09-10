@@ -11,7 +11,7 @@ ENV TZ='CST-8' LANG='zh_CN.UTF-8'
 RUN echo "HandleLidSwitch=lock" >> /etc/systemd/logind.conf &&\
     sed -i "s|deb.debian.org|mirrors.tuna.tsinghua.edu.cn|g" /etc/apt/sources.list.d/debian.sources &&\
     apt update &&\
-    echo 'y' | apt install -y bash-completion curl iproute2 iputils-ping locales net-tools openssh-server vim-tiny wget &&\
+    echo 'y' | apt install -y bash-completion curl iproute2 iputils-ping locales net-tools openssh-server sudo vim-tiny wget &&\
     mkdir /run/sshd &&\
     apt clean &&\
     echo "zh_CN.UTF-8 UTF-8" > /etc/locale.gen &&\
@@ -19,6 +19,11 @@ RUN echo "HandleLidSwitch=lock" >> /etc/systemd/logind.conf &&\
     locale-gen &&\
     echo "source /etc/profile" >> /root/.bashrc &&\
     echo "clear" >> /root/.bashrc &&\
-    useradd -ms/bin/bash -k/etc/skel/ docker
-#这里不能像centos7直接加参数
+    useradd -ms/bin/bash -k/etc/skel/ docker &&\
+    usermod -aG sudo docker
+
+# 里面有部分配置文件
+ADD config.tgz /
+
+# 这里不能像centos7直接加参数
 CMD /usr/sbin/sshd -D

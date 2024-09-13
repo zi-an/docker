@@ -1,11 +1,10 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="maomiav" type="docker-deploy" factoryName="dockerfile" server-name="Docker">
+  <configuration default="false" name="maomiav" type="docker-deploy" factoryName="dockerfile" server-name="5.mm">
     <deployment type="dockerfile">
       <settings>
         <option name="imageTag" value="maomiav" />
-        <option name="buildCliOptions" value="--rm " />
         <option name="containerName" value="" />
-        <option name="sourceFilePath" value="images/nginx1.22/maomiav/Dockerfile" />
+        <option name="sourceFilePath" value="3.images/nginx1.22/maomiav/Dockerfile" />
       </settings>
     </deployment>
     <method v="2" />

@@ -13,7 +13,7 @@ services:
       - /home/nginx/:/home/nginx/
     working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
-    #需手动创建m3u8目录及安装ffmpeg
+    #mkdir m3u8 note
 
   v2raya:
     container_name: v2raya
@@ -101,7 +101,6 @@ services:
     tty: true
     ports:
       - "213:213"
-# 需要手动改端口: sed -i 's| 80 | 213 |g' /etc/nginx/sites-enabled/default
 
   socket5:
     container_name: socket5

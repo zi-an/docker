@@ -4,6 +4,7 @@ RUN apt install nginx -y
 #RUN curl https://mj.pki.net.cn/build1/static/js/main.3edcddfc.js > /var/www/html/maomi.js &&\
 #    curl  https://mj.pki.net.cn/build1/static/css/main.7ed28a66.css > /var/www/html/maomi.css
 RUN sed -i "s|location /|location /default|g" /etc/nginx/sites-enabled/default &&\
+    sed -i "22 i listen 213 default_server;" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location / {try_files '' /index.html;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location =/index.html {index  index.html;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location =/maomi.js {index maomi.js;}" /etc/nginx/sites-enabled/default &&\

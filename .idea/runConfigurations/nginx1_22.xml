@@ -1,5 +1,5 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="nginx1.22" type="docker-deploy" factoryName="dockerfile" server-name="6.mm">
+  <configuration default="false" name="nginx1.22" type="docker-deploy" factoryName="dockerfile" server-name="5.mm">
     <deployment type="dockerfile">
       <settings>
         <option name="imageTag" value="nginx1.22" />

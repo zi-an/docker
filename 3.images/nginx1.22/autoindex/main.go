@@ -34,6 +34,7 @@ func get(w http.ResponseWriter, r *http.Request) {
 }
 
 // 文件上传
+// 测试数据: curl http://127.0.0.1:8888/post -F file=@bank.jpg -H "Referer: http://127.0.0.1/?from=/upload/"
 func post(w http.ResponseWriter, r *http.Request) {
 	from := r.Header.Get("Referer")
 	from = from[strings.Index(from, "=/")+1 : len(from)] //获取相对地址
@@ -79,16 +80,7 @@ func m3u8er(w http.ResponseWriter, r *http.Request) {
 func noter(w http.ResponseWriter, r *http.Request) {
 	note := r.PostFormValue("note")
 	file, _ := os.OpenFile("/home/nginx/note/note.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
-	_, _ = file.WriteString(time.Now().Format("01-02 15:04") + note + "\n")
+	loc, _ := time.LoadLocation("Asia/Taipei")
+	_, _ = file.WriteString(time.Now().In(loc).Format("0102_1504: ") + note + "\n")
 	http.Redirect(w, r, "/?from=/note/", http.StatusSeeOther)
 }
-
-/*
-使用nginx代理
-location /post {proxy_pass http://127.0.0.1:8888;client_max_body_size 8192m;}
-location /m3u8 {proxy_pass http://127.0.0.1:8888;}
-location /get {proxy_pass http://127.0.0.1:8888;}
-
-测试数据
-curl http://127.0.0.1:8888/post -F file=@bank.jpg -H "Referer: http://127.0.0.1/?from=/upload/"
-*/

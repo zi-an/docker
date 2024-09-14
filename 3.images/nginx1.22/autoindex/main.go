@@ -12,6 +12,7 @@ import (
 )
 
 func main() {
+	Init()
 	server := &http.Server{
 		Addr: "0.0.0.0:8888",
 	}
@@ -22,6 +23,15 @@ func main() {
 	mux.HandleFunc("/noter", noter)
 	server.Handler = mux
 	_ = server.ListenAndServe()
+}
+func Init() {
+	dirs := []string{"/home/nginx/m3u8/", "/home/nginx/note/"}
+	for _, dir := range dirs {
+		_, err := os.Stat(dir)
+		if err == nil {
+			_ = os.MkdirAll(dir, 0777)
+		}
+	}
 }
 
 // 获取客户端信息
@@ -53,7 +63,8 @@ func post(w http.ResponseWriter, r *http.Request) {
 
 		_, err := os.Stat(imgName) //判断文件是否存在,在则隐藏并添加时间戳
 		if err == nil {
-			newName := "." + from + "." + files["file"][0].Filename + "." + time.Now().Format("20060102_150405")
+			loc, _ := time.LoadLocation("Asia/Taipei")
+			newName := "." + from + "." + files["file"][0].Filename + "." + time.Now().In(loc).Format("20060102_150405")
 			_ = os.Rename(imgName, newName)
 		}
 

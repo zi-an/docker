@@ -2,17 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="Cache" content="no-cache">
     <title>记录者</title>
     <link rel="stylesheet" href="./bootstrap.min.css">
     <script src="./jquery.min.js"></script>
 </head>
 <body style="font-size: 39px">
 <form action="/noter" method="post">
-    <label>
-        <textarea required="required" name="note" class="form-control" style="width:200%" rows="10"></textarea>
+    <label style="width: 100%">
+        <textarea class="form-control" name="note" required="required" rows="3" style="font-size:39px"></textarea>
+        <input type="submit" value="记载" style="width: 100%">
     </label>
-    <br>
-    <input type="submit" value="记载" style="width:100%">
 </form>
 <span></span>
 </body>
@@ -23,7 +23,7 @@
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
         history = httpRequest.responseText;
-         history=history.split("\n").reverse().join("\n");
+        history=history.split("\n").reverse().join("\n");
         document.getElementsByTagName("span")[0].innerText = history;
     }
 </script>

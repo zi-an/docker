@@ -4,6 +4,7 @@
       <settings>
         <option name="imageTag" value="nginx1.22" />
         <option name="buildOnly" value="true" />
+        <option name="containerName" value="" />
         <option name="sourceFilePath" value="3.images/nginx1.22/Dockerfile" />
       </settings>
     </deployment>

@@ -13,7 +13,7 @@ RUN mkdir /home/nginx/ &&\
     sed -i "42 i location /m3u8er {proxy_pass http://127.0.0.1:8888;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location /noter {proxy_pass http://127.0.0.1:8888;}" /etc/nginx/sites-enabled/default &&\
     sed -i "42 i location /json/{autoindex on;autoindex_format json;alias /home/nginx/;}" /etc/nginx/sites-enabled/default &&\
-    sed -i '42 i location / {set $index index.html;if ( $arg_from = /m3u8/ ) {set $index m3u8.html;}if ( $arg_from = /note/ ) {set $index note.html;}index $index;} ' /etc/nginx/sites-enabled/default
+    sed -i '42 i location / {set $index index.html;if ( $arg_from = /m3u8/ ) {set $index m3u8.html;}if ( $arg_from = /note/ ) {set $index note.html;}index $index;}' /etc/nginx/sites-enabled/default
 
 ADD autoindex/* /var/www/html/
 RUN mv /var/www/html/m3u8downloader /usr/bin &&\

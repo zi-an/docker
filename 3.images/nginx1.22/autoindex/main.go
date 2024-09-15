@@ -69,7 +69,7 @@ func post(w http.ResponseWriter, r *http.Request) {
 		}
 
 		saveFile, _ := os.Create(imgName)
-		defer saveFile.Close()
+		_ = saveFile.Close()
 		_, _ = io.Copy(saveFile, imgFile) //保存
 
 		http.Redirect(w, r, "/?from="+from, http.StatusSeeOther)

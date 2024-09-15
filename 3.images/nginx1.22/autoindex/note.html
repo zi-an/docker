@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Cache" content="no-cache">
     <title>记录者</title>
     <link rel="stylesheet" href="./bootstrap.min.css">
     <script src="./jquery.min.js"></script>
@@ -19,7 +18,7 @@
 <script type="text/javascript">
     let history;
     let httpRequest = new XMLHttpRequest();
-    httpRequest.open("GET", "./json/note/note.log");
+    httpRequest.open("GET", "./json/note/note.log?"+Date.now());
     httpRequest.send();
     httpRequest.onreadystatechange = function () {
         history = httpRequest.responseText;

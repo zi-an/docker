@@ -124,29 +124,30 @@ services:
       macvlan:
         ipv4_address: 10.0.0.210
 
+  v2raya:
+    container_name: v2raya
+    hostname: v2raya.mm
+    image: mzz2017/v2raya
+    #restart: always
+    tty: true
+    environment:
+      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+    mac_address: 02-11-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.211
+  # https://www.freeclashnode.com/uploads/2024/09/0-20240920.txt
+  # 需指定V2RAYA_V2RAY_BIN才能使用多路
+
   maomiav:
     container_name: maomiav
     hostname: maomiav.mm
     image: maomiav
     tty: true
-    mac_address: 02-11-00-00-00-00
+    mac_address: 02-13-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 10.0.0.211
-
-  maomiav2:
-    container_name: maomiav2
-    hostname: maomiav2.mm
-    image: maomiav2
-    tty: true
-    mac_address: 02-12-00-00-00-00
-    tmpfs: /opt
-    volumes:
-      - /home/maomiav:/var/www/html/
-    networks:
-      macvlan:
-        ipv4_address: 10.0.0.212
-    command: sh -c "nginx && /sbin/sshd -D"
+        ipv4_address: 10.0.0.213
 
   terminal:
     container_name: terminal

@@ -13,7 +13,17 @@ services:
       - /home/nginx/:/home/nginx/
     working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
-    #mkdir m3u8 note
+
+  quic:
+    container_name: quic
+    hostname: quic.mm
+    image: nginx.quic
+    restart: always
+    tty: true
+    ports:
+      - "443:443"
+    command: sh -c "nginx & bash"
+
 
   v2raya:
     container_name: v2raya

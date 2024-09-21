@@ -14,6 +14,16 @@ services:
     working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
 
+  quic:
+    container_name: quic
+    hostname: quic.mm
+    image: nginx.quic
+    restart: always
+    tty: true
+    ports:
+      - "443:443/udp"
+    command: sh -c "nginx & bash"
+
   chronyd:
     container_name: chronyd
     hostname: chronyd.mm

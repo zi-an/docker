@@ -52,7 +52,7 @@ services:
   quic:
     container_name: quic
     hostname: quic.mm
-    image: quic
+    image: nginx.quic
     tty: true
     mac_address: 02-13-00-00-00-00
     networks:

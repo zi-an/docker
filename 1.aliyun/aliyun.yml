@@ -65,7 +65,7 @@ services:
   vlmcsd:
     container_name: vlmcsd
     hostname: vlmcsd.mm
-    image: vlmcsd1113
+    image: vlmcsd
     tty: true
     ports:
       - "1688:1688"
@@ -109,8 +109,8 @@ services:
     hostname: maomiav.mm
     image: maomiav
     tty: true
-    ports:
-      - "213:213"
+#    ports:
+#      - "213:213"
 
   socket5:
     container_name: socket5

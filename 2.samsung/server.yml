@@ -128,15 +128,15 @@ services:
     container_name: v2raya
     hostname: v2raya.mm
     image: mzz2017/v2raya
-    #restart: always
     tty: true
     environment:
       V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+      V2RAYA_ADDRESS: 0.0.0.0:80
     mac_address: 02-11-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 10.0.0.211
-  # https://www.freeclashnode.com/uploads/2024/09/0-20240920.txt
+  # https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
   # 需指定V2RAYA_V2RAY_BIN才能使用多路
 
   maomiav:

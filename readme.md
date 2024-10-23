@@ -1,8 +1,8 @@
 # Dcoker & Docker compose
+* 新版idea需要下载https://download.docker.com/win/static/stable/x86_64/
+* https://download.docker.com/win/static/stable/x86_64/docker-20.10.24.zip
+* https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Windows-x86_64.exe
 
-```shell
-wget -Uri https://github.com/docker/compose/releases/download/1.29.2/docker-compose-Windows-x86_64.exe -OutFile compose.exe
-```
 
 # GIT
 ```shell

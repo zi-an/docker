@@ -4,7 +4,6 @@
       <settings>
         <option name="imageTag" value="maomiav" />
         <option name="buildCliOptions" value="--no-cache" />
-        <option name="buildOnly" value="true" />
         <option name="containerName" value="" />
         <option name="sourceFilePath" value="3.images/nginx1.22/maomiav/Dockerfile" />
       </settings>

@@ -9,10 +9,21 @@ services:
     tty: true
     ports:
       - "80:80"
+      - "443:443"
     volumes:
       - /home/nginx/:/home/nginx/
     working_dir: /home/nginx
     command: sh -c "nginx & /var/www/html/.go"
+
+  transmission:
+    container_name: transmission
+    hostname: transmission.mm
+    image: linuxserver/transmission
+    tty: true
+    ports:
+      - "90:9091"
+    volumes:
+      - /home/nginx/transmission/:/downloads/
 
   quic:
     container_name: quic

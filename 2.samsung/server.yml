@@ -62,6 +62,16 @@ services:
     volumes:
       - /home/mariadb/:/var/lib/mysql
 
+  adb:
+    container_name: adb
+    hostname: 205.mm
+    image: adb34.0
+    tty: true
+    mac_address: 02-05-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.205
+
   ipv6:
     container_name: ipv6
     hostname: 206.mm
@@ -88,15 +98,22 @@ services:
       macvlan:
         ipv4_address: 10.0.0.207
 
-  adb:
-    container_name: adb
+
+  transmission:
+    container_name: transmission
     hostname: 208.mm
-    image: adb34.0
+    image: linuxserver/transmission
     tty: true
     mac_address: 02-08-00-00-00-00
+    volumes:
+      - /home/nginx/transmission/:/downloads/
     networks:
       macvlan:
         ipv4_address: 10.0.0.208
+# 使用80端口
+# docker cp transmission:/config/settings.json .
+# sed -i 's|9091|80|g' settings.json
+# docker cp settings.json transmission:/config/settings.json
 
   xunlei:
     container_name: xunlei

@@ -1,4 +1,6 @@
 FROM debian12.x
+# debian12自带的nginx存在无法使用proxy_cache的问题，建议使用官方版本
+# https://nginx.org/en/linux_packages.html#Debian
 
 # 安装nginx,日志优化
 RUN apt install nginx -y &&\
@@ -6,7 +8,7 @@ RUN apt install nginx -y &&\
     sed -i '13 i log_format main "$remote_addr [$time_iso8601] [$request] $status $request_time";' /etc/nginx/nginx.conf
 
 # 使用了proxy_pass+cache缓存加速
-RUN sed -i '13 i proxy_cache_path /opt keys_zone=my_cache:10m;proxy_cache my_cache;proxy_cache_valid 200 1h;proxy_set_header Accept-Encoding "";' /etc/nginx/nginx.conf
+RUN sed -i '13 i proxy_cache_path /opt keys_zone=my_cache:10m;proxy_cache my_cache;proxy_cache_valid 1h;proxy_set_header Accept-Encoding "";' /etc/nginx/nginx.conf
 
 RUN sed -i 's|location /|location /default|g' /etc/nginx/sites-enabled/default &&\
     sed -i '42 i location ~ .detail. {proxy_store /var/www/html$request_uri;if (!-e $request_filename){proxy_pass https://www.maomi.com;}}' /etc/nginx/sites-enabled/default &&\

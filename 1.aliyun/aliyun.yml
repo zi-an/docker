@@ -22,6 +22,7 @@ services:
     tty: true
     ports:
       - "90:9091"
+      - "51413:51413"
     volumes:
       - /home/nginx/transmission/:/downloads/
 
@@ -47,8 +48,9 @@ services:
       - "10086:20172"
     environment:
       V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
-# https://www.freeclashnode.com/uploads/2024/09/0-20240906.txt
 # 需指定V2RAYA_V2RAY_BIN才能使用多路
+# https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
+# 需在设置开启端口分享
 
   webdav:
   # 文件配置备份系统

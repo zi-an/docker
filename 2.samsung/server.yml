@@ -153,8 +153,9 @@ services:
     networks:
       macvlan:
         ipv4_address: 10.0.0.211
-  # https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
-  # 需指定V2RAYA_V2RAY_BIN才能使用多路
+# 需指定V2RAYA_V2RAY_BIN才能使用多路
+# https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
+# 需在设置开启端口分享
 
   maomiav:
     container_name: maomiav

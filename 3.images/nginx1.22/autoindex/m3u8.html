@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>m3u8</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <script src="./jquery.min.js"></script>
+</head>
+<body style="font-size: 39px">
+<form action="/m3u8er" method="post">
+    <label style="width: 100%;font-size: 39px">
+        <input name="uri" required="required" style="width:100%" placeholder="下载地址"/>
+        <input name="name" required="required" style="width:100%" placeholder="文件名称"/>
+    </label><br>
+    <input type="submit" value="下载" style="width:100%">
+</form>
+
+
+<div class="panel panel-default">
+    <table class="table" id="load">
+    </table>
+</div>
+</body>
+<script type="text/javascript">
+    let from = "/";
+    $(document).ready(function () {
+        //获取页面链接参数
+        from = window.location.href;
+        from = from.substr(from.indexOf("=") + 1, from.length);
+        if (from.indexOf('&') > 0) from = from.substring(0, from.indexOf('&'));
+        if (from.length === window.location.href.length) location.href = '/?from=/';
+        loadJson("./json" + from);
+    })
+
+    function loadJson(baseUrl) {
+        $.getJSON(baseUrl,
+            function (data) {
+                let result = '<tr><th style="width: 70%">名称</th><th style="width: 30%">时间</th></tr>';
+                result += '<tr><td><a href=\"./?from=' + parentDirectory(from) + '\">..</a></td><td>----------</td></tr>'
+                for (let i = 0; i < data.length; i++) {
+                    result += '<tr>';
+                    //result += '<td>' + data[i].name + '</td>';
+                    if (data[i].type === 'directory') {
+                        let url = "./?from=" + from + '/' + data[i].name + '/';
+                        url = url.replace("\/\/", "\/");
+                        //result += '<td><a onclick="loadJson(\'' + url + '\')">' + data[i].name + '(目录)</a></td>';
+                        //重新加载,已放弃
+                        result += '<td><a  href="' + url + '">.\/' + '' + data[i].name + '\/</a></td>';
+                        //带参跳转,可返回
+                        result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+                    } else {
+                        let url = baseUrl + data[i].name;
+                        //url = url.replace("/json/", "/");
+                        result += '<td><a href="' + url + '">' + data[i].name + '</a></td>';
+                        result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+                    }
+                    result += '</tr>'
+                }
+                $('#load').append(result);
+            });
+    }
+
+    /*返回格式化时间*/
+    function dateFormat(time) {
+        let date = new Date(time);
+        let year = date.getFullYear();
+        let month = "0" + (date.getMonth() + 1);
+        month = month.substr(month.length - 2, 2);
+        let day = "0" + date.getDate();
+        day = day.substr(day.length - 2, 2);
+        return year + "-" + month + "-" + day;
+    }
+
+    /* 返回上级目录,若当前为根目录则返回当前*/
+    function parentDirectory(from) {
+        let result = from.substr(0, from.lastIndexOf('\/'));
+        result = result.substr(0, result.lastIndexOf('\/')) + '\/';
+        if (result.indexOf('\/') !== 0) {
+            return "/";
+        } else {
+            return result;
+        }
+    }
+</script>
+</html>
+<!--
+ location / {
+  root   html;
+  index  index.html;
+ }
+
+ location /json/ {
+ add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+            add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+  autoindex on;
+  autoindex_format json;
+  alias  z:/;
+ }
+-->

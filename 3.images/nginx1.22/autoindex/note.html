@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>记录者</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <script src="./jquery.min.js"></script>
+</head>
+<body style="font-size: 39px">
+<form action="/noter" method="post">
+    <label style="width: 100%">
+        <textarea class="form-control" name="note" required="required" rows="3" style="font-size:39px"></textarea>
+        <input type="submit" value="记载" style="width: 100%">
+    </label>
+</form>
+<span></span>
+</body>
+<script type="text/javascript">
+    let history;
+    let httpRequest = new XMLHttpRequest();
+    httpRequest.open("GET", "./json/note/note.log?"+Date.now());
+    httpRequest.send();
+    httpRequest.onreadystatechange = function () {
+        history = httpRequest.responseText;
+        history=history.split("\n").reverse().join("\n");
+        document.getElementsByTagName("span")[0].innerText = history;
+    }
+</script>
+</html>
+
+<!--120.76.158.149/json/note/note.log-->

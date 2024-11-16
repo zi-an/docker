@@ -6,8 +6,8 @@
     <title>目录</title>
     <!--<link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/jquery/1.9.1/jquery.min.js"></script>-->
-    <link rel="stylesheet" href="./bootstrap.min.css">
-    <script src="./jquery.min.js">
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <script src="jquery.min.js">
     </script>
 </head>
 
@@ -39,7 +39,7 @@
         $.getJSON(baseUrl,
             function (data) {
                 let result = '<tr><th style="width: 70%">名称</th><th style="width: 30%">时间</th></tr>';
-                result += '<tr><td><a href=\"./?from=' + parentDirectory(from) + '\">..</a></td><td>----------</td></tr>'
+                result += '<tr><td><a href=' + parentDirectory(from) + '\"?from=\">..</a></td><td>----------</td></tr>'
                 for (let i = 0; i < data.length; i++) {
                     result += '<tr>';
                     //result += '<td>' + data[i].name + '</td>';

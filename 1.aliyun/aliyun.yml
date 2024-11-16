@@ -8,7 +8,7 @@ services:
     restart: always
     tty: true
     ports:
-      - "80:80"
+      - "80-88:80-88"
       - "443:443"
     volumes:
       - /home/nginx/:/home/nginx/
@@ -51,7 +51,7 @@ services:
 # 需指定V2RAYA_V2RAY_BIN才能使用多路
 # https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
 # 需在设置开启端口分享
-
+# 分流模式RoutingA设置密码inbound: httpauthin = http(address: 0.0.0.0, port: 20172, user: x, pass: x)
   webdav:
   # 文件配置备份系统
     container_name: webdav

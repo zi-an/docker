@@ -20,10 +20,14 @@ RUN echo "HandleLidSwitch=lock" >> /etc/systemd/logind.conf &&\
     echo "source /etc/profile" >> /root/.bashrc &&\
     echo "clear" >> /root/.bashrc &&\
     useradd -ms/bin/bash -k/etc/skel/ docker &&\
-    usermod -aG sudo docker
+    usermod -aG sudo docker &&\
+    echo docker:. | chpasswd
 
 # 里面有部分配置文件
 ADD config.tgz /
+
+# 修改系统所有文件时间,(软链接/lib与/lib64需要添加-h如 touch -h /sbin -t 197001010800.00),方便以后查找
+RUN find /* -path /sys -prune -o -path /proc -prune -o -exec touch -ht 197001010000.00 {} \;
 
 # 这里不能像centos7直接加参数
 CMD /usr/sbin/sshd -D

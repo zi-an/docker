@@ -2,17 +2,19 @@ version: "3.8"
 
 services:
   nginx:
-    container_name: nginx
-    hostname: nginx.mm
-    image: nginx1.22
+    container_name: zian
+    hostname: zian.mm
+    image: zian
     restart: always
     tty: true
     ports:
-      - "80:80"
+      - "80-88:80-88"
+      - "5005:5005"
     volumes:
       - /home/nginx/:/home/nginx/
+      - /home/webdav:/var/www/webdav
     working_dir: /home/nginx
-    command: sh -c "nginx & /var/www/html/.go"
+    command: sh -c "nginx & goweb"
 
   quic:
     container_name: quic

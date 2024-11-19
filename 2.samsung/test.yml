@@ -28,13 +28,13 @@ services:
   rtmp:
     container_name: rtmp
     hostname: 211.mm
-    image: rtmp1.24
+    image: rtmp
     tty: true
     tmpfs: /tmp/
-    mac_address: 02-11-00-00-00-00
+    mac_address: 02-15-00-00-00-00
     networks:
       macvlan:
-        ipv4_address: 10.0.0.211
+        ipv4_address: 10.0.0.215
     command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
 
   flv:

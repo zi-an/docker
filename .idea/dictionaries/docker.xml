@@ -2,6 +2,8 @@
   <dictionary name="docker">
     <words>
       <w>autoindex</w>
+      <w>goweb</w>
+      <w>libnginx</w>
       <w>linuxserver</w>
       <w>sysctls</w>
       <w>tsinghua</w>

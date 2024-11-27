@@ -1,7 +1,7 @@
 version: "3.8"
 
 services:
-  nginx:
+  zian:
     container_name: zian
     hostname: zian.mm
     image: zian
@@ -15,6 +15,9 @@ services:
       - /home/webdav:/var/www/webdav
     working_dir: /home/nginx
     command: sh -c "nginx & goweb"
+# mv /etc/nginx/sites-enabled/88.conf /etc/nginx/sites-enabled/80.conf
+# sed -i "s|listen 88|listen 80|g" /etc/nginx/sites-enabled/80.conf
+# nginx -s reload
 
   quic:
     container_name: quic

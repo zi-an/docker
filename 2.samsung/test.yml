@@ -8,8 +8,8 @@ networks:
       parent: enp6s0
     ipam:
       config:
-        - subnet: 10.0.0.200/24
-          ip_range: 10.0.0.200/28
+        - subnet: 10.0.0.100/24
+          ip_range: 10.0.0.100/24
           gateway: 10.0.0.1
 
 services:
@@ -115,7 +115,7 @@ services:
   test222:
     container_name: test222
     hostname: 222.mm
-    image: debian12.x
+    image: hadoop3.4.1
     tty: true
     mac_address: 02-22-00-00-00-00
     networks:

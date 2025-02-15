@@ -47,13 +47,15 @@ services:
     tty: true
     ports:
       - "2017:2017"
-      - "10086:20172"
+      - "10086:10086"
     environment:
       V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+    volumes:
+      - /home/v2raya:/etc/v2raya
 # 需指定V2RAYA_V2RAY_BIN才能使用多路
-# https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
+# https://www.freeclashnode.com/uploads/2024/12/0-20241221.txt
 # 需在设置开启端口分享
-# 分流模式RoutingA设置密码inbound: httpauthin = http(address: 0.0.0.0, port: 20172, user: x, pass: x)
+# 分流模式RoutingA设置密码 inbound: httpauthin = http(address: 0.0.0.0, port: 10086, user: x, pass: x)
   webdav:
   # 文件配置备份系统
     container_name: webdav
@@ -66,6 +68,16 @@ services:
     volumes:
       - /home/webdav:/var/www/html
     command: "nginx -g 'daemon off;'"
+
+  mariadb:
+    container_name: mariadb
+    hostname: mariadb.mm
+    image: mariadb10.11
+    tty: true
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/mariadb/:/var/lib/mysql
 
   chronyd:
     container_name: chronyd
@@ -143,6 +155,19 @@ services:
     ports:
       - "11111:3128"
 
+  ollama:
+    container_name: ollama
+    hostname: ollama.service
+    image: alpine/ollama
+    tty: true
+    ports:
+      - "11434:11434"
+    volumes:
+      - /home/ollama/.ollama/:/root/.ollama/
+    environment:
+      - OLLAMA_KEEP_ALIVE=-1
+  # ollama run qwen2.5-coder:0.5b
+
   test:
     container_name: test
     hostname: test.mm
@@ -154,5 +179,4 @@ services:
     working_dir: /temp
     ports:
       - "2222:22"
-      - "9999:80"
 # 默认进入temp目录操作: echo "cd /temp" >> .bashrc

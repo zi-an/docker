@@ -3,8 +3,8 @@ FROM debian12.x
 RUN apt install -y apache2-utils libnginx-mod-http-dav-ext nginx unzip
 
 RUN mkdir /home/nginx/ &&\
-    #wget gitdl.cn/github.com/zi-an/zi-an.github.io/blob/master/debian/goweb -O /usr/bin/goweb &&\
-    wget http://120.76.158.149/debian/goweb -O /usr/bin/goweb &&\
+    wget github.com/zi-an/zi-an.github.io/raw/refs/heads/master/debian/goweb -O /usr/bin/goweb &&\
+    sed -i 's|txt;|txt md reg;|g' /etc/nginx/mime.types &&\
     rm /etc/nginx/sites-enabled/default &&\
     htpasswd -bc /passwd zian zian
 

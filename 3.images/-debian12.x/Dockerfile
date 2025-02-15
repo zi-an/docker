@@ -1,7 +1,7 @@
+#debian12.x
 FROM scratch
-#debian12.x --force-rm
 
-ADD rootfs.tar.xz /
+ADD rootfs.tar.gz /
 ENV TZ='CST-8' LANG='zh_CN.UTF-8'
 # 笔记本盒盖问题+apt清华源
 # 安装openssh-server时要确认,使用echo管道

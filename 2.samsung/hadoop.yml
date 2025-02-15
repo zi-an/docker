@@ -1,0 +1,77 @@
+version: "3.8"
+#https://docs.docker.com/compose/compose-file/compose-file-v3/
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      #parent: enp8s0
+      parent: enp6s0
+    ipam:
+      config:
+        - subnet: 10.0.0.100/24
+          ip_range: 10.0.0.100/24
+          gateway: 10.0.0.1
+services:
+  hadoop0:
+    container_name: hadoop0
+    hostname: 100.mm
+    image: hadoop3.4.1
+    tty: true
+    mac_address: 01-00-00-00-00-00
+    volumes:
+      - /home/hadoop/hadoop0:/opt/data/
+    environment:
+      - SERVICE_NAME=hiveserver2
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.100
+
+  hadoop1:
+    container_name: hadoop1
+    hostname: 101.mm
+    image: hadoop3.4.1
+    tty: true
+    mac_address: 01-01-00-00-00-00
+    volumes:
+      - /home/hadoop/hadoop1:/opt/data/
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.101
+
+  hadoop2:
+    container_name: hadoop2
+    hostname: 102.mm
+    image: hadoop3.4.1
+    tty: true
+    mac_address: 01-02-00-00-00-00
+    volumes:
+      - /home/hadoop/hadoop2:/opt/data/
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.102
+
+  hadoop3:
+    container_name: hadoop3
+    hostname: 103.mm
+    image: hadoop3.4.1
+    tty: true
+    mac_address: 01-03-00-00-00-00
+    volumes:
+      - /home/hadoop/hadoop3:/opt/data/
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.103
+
+  hive4:
+    container_name: hive4
+    hostname: 104.mm
+    image: 9bb619cde18603cdc437eca9e6037bb49445ad07be205c62bb26f71ee405b3f6
+    tty: true
+    mac_address: 01-04-00-00-00-00
+    environment:
+      - SERVICE_NAME=hiveserver2
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.104
+#    user: root
+#    command: /usr/sbin/sshd -D

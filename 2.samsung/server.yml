@@ -8,11 +8,21 @@ networks:
       parent: enp6s0
     ipam:
       config:
-        - subnet: 10.0.0.200/24
-          ip_range: 10.0.0.200/28
+        - subnet: 10.0.0.100/24
+          ip_range: 10.0.0.100/24
           gateway: 10.0.0.1
 
 services:
+  ollama:
+    container_name: ollama
+    hostname: ollama.service
+    image: alpine/ollama
+    tty: true
+    mac_address: 01-14-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.114
+
   java:
     container_name: java
     hostname: java.service
@@ -111,6 +121,7 @@ services:
       macvlan:
         ipv4_address: 10.0.0.208
 # 使用80端口
+# docker stop transmission
 # docker cp transmission:/config/settings.json .
 # sed -i 's|9091|80|g' settings.json
 # docker cp settings.json transmission:/config/settings.json
@@ -141,21 +152,7 @@ services:
       macvlan:
         ipv4_address: 10.0.0.210
 
-  v2raya:
-    container_name: v2raya
-    hostname: v2raya.mm
-    image: mzz2017/v2raya
-    tty: true
-    environment:
-      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
-      V2RAYA_ADDRESS: 0.0.0.0:80
-    mac_address: 02-11-00-00-00-00
-    networks:
-      macvlan:
-        ipv4_address: 10.0.0.211
-# 需指定V2RAYA_V2RAY_BIN才能使用多路
-# https://www.freeclashnode.com/uploads/2024/01/0-202410233.txt
-# 需在设置开启端口分享
+
 
   maomiav:
     container_name: maomiav

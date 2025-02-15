@@ -56,3 +56,20 @@ services:
       - /etc/hosts:/etc/hosts
     ports:
       - "53:53/udp"
+
+  v2raya:
+    container_name: v2raya
+    hostname: v2raya.mm
+    image: mzz2017/v2raya
+    tty: true
+    ports:
+      - "10086:20172"
+      - "2017:2017"
+    environment:
+      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+    volumes:
+      - /home/v2raya:/etc/v2raya
+# 需指定V2RAYA_V2RAY_BIN才能使用多路
+# https://www.freeclashnode.com/uploads/2024/12/0-20241222.txt
+# https://v2rayshare.githubrowcontent.com/2024/12/20241222.txt
+# 需在设置开启端口分享

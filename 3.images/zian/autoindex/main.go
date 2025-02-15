@@ -7,6 +7,7 @@ import (
 	"net/url"
 	"os"
 	"os/exec"
+	"runtime"
 	"strings"
 	"time"
 )
@@ -25,11 +26,20 @@ func main() {
 	_ = server.ListenAndServe()
 }
 func Init() {
-	dirs := []string{"/home/nginx/m3u8/", "/home/nginx/note/"}
+	dirs := []string{"/home/nginx/m3u8/", "/home/nginx/note"}
+
 	for _, dir := range dirs {
-		_, err := os.Stat(dir)
-		if err == nil {
-			_ = os.MkdirAll(dir, 0777)
+		if runtime.GOOS == "windows" {
+			dir = strings.ReplaceAll(dir, "/home/nginx/", "Z:/")
+			_, err := os.Stat(dir)
+			if err != nil {
+				_ = os.Mkdir(dir, os.ModePerm)
+			}
+		} else if runtime.GOOS == "linux" {
+			_, err := os.Stat(dir)
+			if err != nil {
+				_ = os.MkdirAll(dir, 0777)
+			}
 		}
 	}
 }
@@ -68,7 +78,8 @@ func post(w http.ResponseWriter, r *http.Request) {
 			_ = os.Rename(imgName, newName)
 		}
 
-		saveFile, _ := os.Create(imgName)
+		saveFile, err := os.Create(imgName)
+		fmt.Print(err)
 		defer saveFile.Close()
 		_, _ = io.Copy(saveFile, imgFile) //保存
 
@@ -84,13 +95,16 @@ func m3u8er(w http.ResponseWriter, r *http.Request) {
 	uri, _ = url.QueryUnescape(uri)
 	name := r.PostFormValue("name")
 	fmt.Println(uri, ":", name)
+	file, _ := os.OpenFile("./note/.m3u8.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	file.WriteString(uri + ":" + name + "\n")
+	defer file.Close()
 	_ = exec.Command("m3u8downloader", uri, name).Run()
 	http.Redirect(w, r, "/?from=/m3u8/", http.StatusSeeOther)
 }
 
 func noter(w http.ResponseWriter, r *http.Request) {
 	note := r.PostFormValue("note")
-	file, _ := os.OpenFile("/home/nginx/note/note.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	file, _ := os.OpenFile("/home/nginx/note/note.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 	loc, _ := time.LoadLocation("Asia/Taipei")
 	_, _ = file.WriteString(time.Now().In(loc).Format("0102_1504: ") + note + "\n")
 	http.Redirect(w, r, "/?from=/note/", http.StatusSeeOther)

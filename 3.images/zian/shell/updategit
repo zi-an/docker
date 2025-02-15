@@ -2,6 +2,6 @@
 
 cd /var/www/
 command -v unzip >/dev/null 2>&1 || apt install -y unzip
-wget gitdl.cn/github.com/zi-an/zi-an.github.io/archive/refs/heads/master.zip
+wget github.com/zi-an/zi-an.github.io/archive/refs/heads/master.zip
 unzip -o master.zip
 rm master.zip

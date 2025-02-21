@@ -95,9 +95,8 @@ func m3u8er(w http.ResponseWriter, r *http.Request) {
 	uri, _ = url.QueryUnescape(uri)
 	name := r.PostFormValue("name")
 	fmt.Println(uri, ":", name)
-	file, _ := os.OpenFile("./note/.m3u8.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
+	file, _ := os.OpenFile("/home/nginx/note/m3u8.log", os.O_CREATE|os.O_RDWR|os.O_APPEND, 0666)
 	file.WriteString(uri + ":" + name + "\n")
-	defer file.Close()
 	_ = exec.Command("m3u8downloader", uri, name).Run()
 	http.Redirect(w, r, "/?from=/m3u8/", http.StatusSeeOther)
 }

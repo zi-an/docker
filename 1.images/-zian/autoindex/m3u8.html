@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link href="/bootstrap.min.css" rel="stylesheet">
+    <style>
+        a {
+            display: block;
+            width: 720px; /* 设置容器宽度 */
+            white-space: nowrap; /* 禁止文字换行 */
+            overflow: hidden; /* 隐藏超出部分 */
+            text-overflow: ellipsis; /* 超出部分显示省略号 */
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body {
+                background-color: black;
+            }
+        }
+    </style>
+</head>
+
+<body style="font-size: 39px">
+<form action="/8888/m3u8" method="post">
+    <label style="width: 100%;font-size: 39px">
+        <input name="uri" required="required" style="width:100%" placeholder="下载地址"/>
+        <input name="name" required="required" style="width:100%" placeholder="文件名称"/>
+    </label><br>
+    <input type="submit" value="下载" style="width:100%">
+</form>
+
+
+<div class="panel panel-default">
+    <table class="table" id="load">
+    </table>
+</div>
+</body>
+<script type="text/javascript">
+    const urlParams = new URLSearchParams(window.location.search);
+    from = urlParams.has('from') ? urlParams.get('from') : "/";
+    let data;
+    baseUrl = "./json" + from
+
+    fetch(baseUrl)
+        .then(response => response.json())
+        .then(response => {
+                data = response;
+                loadData();
+            }
+        )
+
+    function loadData() {
+        let result = '<tr><th style="width: 70%">名称</th><th style="width: 30%" onclick="sort()">时间</th></tr>';
+        result += '<tr><td><a href="/?from=' + parentDirectory(from) + '">..</a></td><td>----------</td></tr>';
+        for (let i = 0; i < data.length; i++) {
+            result += '<tr>';
+            //result += '<td>' + data[i].name + '</td>';
+            if (data[i].type === 'directory') {
+                let url = "./?from=" + from + '/' + data[i].name + '/';
+                url = url.replace("\/\/", "\/");
+                //result += '<td><a onclick="loadJson(\'' + url + '\')">' + data[i].name + '(目录)</a></td>';
+                //重新加载,已放弃
+                result += '<td><a  href="' + url + '">.\/' + '' + data[i].name + '\/</a></td>';
+                //带参跳转,可返回
+                result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+            } else {
+                let url = baseUrl + data[i].name;
+                //url = url.replace("/json/", "/");
+                result += '<td><a href="' + url + '">' + data[i].name + '</a></td>';
+                result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+            }
+            result += '</tr>'
+        }
+        document.getElementById("load").innerHTML = result;
+    }
+
+    //时间排序
+    function sort() {
+        data.sort((a, b) => {
+            if (a.type === b.type) {
+                return new Date(b.mtime) - new Date(a.mtime);
+            }
+            return a.type.localeCompare(b.type);
+        })
+        loadData();
+    }
+
+    /*返回格式化时间*/
+    function dateFormat(unixTimestamp) {
+        const date = new Date(unixTimestamp);
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
+    }
+
+    /* 返回上级目录,若当前为根目录则返回当前*/
+    function parentDirectory(from) {
+        let result = from.slice(0, from.lastIndexOf('\/'));
+        result = result.slice(0, result.lastIndexOf('\/')) + '\/';
+        if (result.indexOf('\/') !== 0) {
+            return "/";
+        } else {
+            return result;
+        }
+    }
+</script>
+</html>
+<!--
+ location / {
+  root   html;
+  index  index.html;
+ }
+
+ location /json/ {
+ add_header Access-Control-Allow-Origin *;
+            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
+            add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
+  autoindex on;
+  autoindex_format json;
+  alias  z:/;
+ }
+-->
+
+

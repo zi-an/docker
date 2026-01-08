@@ -1,0 +1,146 @@
+#https://docs.docker.com/compose/compose-file/compose-file-v3/
+name: samsung
+
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      parent: enp4s0
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          ip_range: 10.0.0.0/24
+          gateway: 10.0.0.1
+
+x-common: &common
+  restart: always
+  tty: true
+  extra_hosts:
+    - "yun.mm:14.103.224.46"
+  environment:
+    - GOPROXY=https://goproxy.cn,direct
+    - TZ=Asia/Taipei
+
+
+services:
+  ffmpeg:
+    container_name: ffmpeg
+    hostname: 210.mm
+    image: ffmpeg5.1
+    tty: true
+    tmpfs: /home/nginx/
+    mac_address: 02-10-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.210
+    command: sh -c "nginx & /usr/sbin/sshd -D"
+
+  rtmp:
+    container_name: rtmp
+    hostname: 211.mm
+    image: rtmp
+    tty: true
+    tmpfs: /tmp/
+    mac_address: 02-15-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.215
+    command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
+
+  flv:
+    container_name: flv
+    hostname: 212.mm
+    image: flv
+    tty: true
+    tmpfs: /tmp/
+    mac_address: 02-12-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.212
+    command: sh -c "/usr/local/nginx/sbin/nginx & /usr/sbin/sshd -D"
+
+  quic:
+    container_name: quic
+    hostname: quic.mm
+    image: nginx.quic
+    tty: true
+    mac_address: 02-13-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.213
+    command: sh -c "nginx & /usr/sbin/sshd -D"
+
+
+
+  head:
+    container_name: head
+    hostname: 218.mm
+    image:  mobz/elasticsearch-head:5-alpine
+    tty: true
+    mac_address: 02-18-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.218
+
+
+  elasticsearch:
+    container_name: elasticsearch
+    hostname: 219.mm
+    image:  elasticsearch:7.17.13
+    environment:
+      - discovery.type=single-node
+    tty: true
+    mac_address: 02-19-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.219
+
+  idea:
+    container_name: idea
+    hostname: 220.mm
+    image: idea2024.1
+    tty: true
+    tmpfs: /tmpfs/
+    volumes:
+      - /home/jetbrains/idea-IU-241.19072.14:/usr/idea/
+      - /home/jetbrains/jetbra:/usr/jetbra/
+      - /home/jetbrains/.m2:/root/.m2
+    mac_address: 02-22-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.220
+
+  jetbrains:
+    <<: *common
+    container_name: jetbrains
+    hostname: 220.mm
+    image: jetbrains
+    mac_address: 02-20-00-00-00-00
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/nginx/temp/tmp:/mnt/
+      - /home/jetbrains/:/jetbrains/
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.220
+
+
+  test221:
+    <<: *common
+    container_name: test221
+    hostname: 221.mm
+    image: debian13.x
+    mac_address: 02-21-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.221
+
+  test222:
+    <<: *common
+    container_name: test222
+    hostname: 222.mm
+    image: debian13.x
+    mac_address: 02-22-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.222

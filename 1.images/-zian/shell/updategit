@@ -1,0 +1,8 @@
+#!/bin/bash
+
+cd /var/www/
+rm master*
+command -v unzip >/dev/null 2>&1 || apt install -y unzip
+wget github.com/zi-an/zi-an.github.io/archive/refs/heads/master.zip
+unzip -o master.zip
+rm master.zip

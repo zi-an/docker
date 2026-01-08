@@ -1,0 +1,101 @@
+# https://docs.docker.com/reference/compose-file/version-and-name/
+# debian13使用docker26-https://github.com/docker/compose/releases/tag/v2.27.3
+# https://mirrors.aliyun.com/docker-ce/win/static/stable/x86_64/
+name: samsung
+
+x-common: &common
+  network_mode: bridge
+  restart: always
+  tty: true
+
+services:
+
+  frp:
+    <<: *common
+    container_name: frp
+    image: frp0.61
+
+  zian:
+    <<: *common
+    container_name: zian
+    hostname: zian.mm
+    image: zian
+    ports:
+      - "0.0.0.0:80-88:80-88"
+      #- "0.0.0.0:5005:5005"
+    volumes:
+      - /home/nginx/:/home/nginx/
+      - /home/webdav:/var/www/webdav
+      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+    working_dir: /home/nginx
+    command: sh -c "nginx & goweb"
+# mv /etc/nginx/sites-enabled/80.conf /etc/nginx/sites-enabled/88.conf
+# sed -i "s|listen 88|listen 80|g" /etc/nginx/sites-enabled/88.conf
+# nginx -s reload
+
+  quic:
+    <<: *common
+    container_name: quic
+    hostname: quic.mm
+    image: nginx.quic
+    ports:
+      - "443:443/udp"
+    command: sh -c "nginx & bash"
+
+  chronyd:
+    <<: *common
+    container_name: chronyd
+    hostname: chronyd.mm
+    image: chronyd4.3
+    ports:
+      - "123:123/udp"
+      - "323:323/udp"
+
+  vlmcsd:
+    <<: *common
+    container_name: vlmcsd
+    hostname: vlmcsd.mm
+    image: vlmcsd1113
+    ports:
+      - "0.0.0.0:1688:1688"
+
+  dnsmasq:
+    <<: *common
+    container_name: dnsmasq
+    hostname: dnsmasq.mm
+    image: dnsmasq2.91
+    volumes:
+      - /etc/hosts:/etc/hosts
+    ports:
+      - "53:53/udp"
+
+  v2raya:
+    <<: *common
+    container_name: v2raya
+    hostname: v2raya.mm
+    image: mzz2017/v2raya
+    ports:
+      - "0.0.0.0:20170-20172:20170-20172"
+    environment:
+      TZ: Asia/Shanghai
+      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+      V2RAYA_ADDRESS: 0.0.0.0:20171
+    volumes:
+      - /home/v2raya:/etc/v2raya
+# 需指定V2RAYA_V2RAY_BIN才能使用多路
+# https://www.freeclashnode.com/uploads/2025/06/0-20250606.txt
+# https://v2rayshare.githubrowcontent.com/2025/06/20250606.txt
+# 需在设置开启端口分享
+# https://github.com/Alvin9999/new-pac/wiki/ss免费账号
+
+  ollama:
+    <<: *common
+    container_name: ollama
+    hostname: ollama.service
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - /home/ollama/.ollama/:/root/.ollama/
+    environment:
+      - OLLAMA_KEEP_ALIVE=-1

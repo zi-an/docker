@@ -1,0 +1,191 @@
+#https://docs.docker.com/compose/compose-file/compose-file-v3/
+name: samsung
+
+networks:
+  macvlan:
+    driver: macvlan
+    driver_opts:
+      #parent: enp8s0
+      parent: enp4s0
+    ipam:
+      config:
+        - subnet: 10.0.0.0/24
+          ip_range: 10.0.0.0/24
+          gateway: 10.0.0.1
+
+services:
+
+  dnsmasq:
+    container_name: dnsmasq
+    hostname: dnsmasq.mm
+    image: jpillora/dnsmasq
+    tty: true
+    volumes:
+      - /etc/hosts:/etc/hosts
+    mac_address: 02-19-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.219
+
+  ollama:
+    container_name: ollama
+    hostname: ollama.service
+    image: ollama/ollama
+    tty: true
+    mac_address: 02-14-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.114
+
+  java:
+    container_name: java
+    hostname: java.service
+    image: java17.0
+    tty: true
+    mac_address: 02-00-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.200
+    volumes:
+      - /home/java:/java
+
+  graalvm:
+    container_name: graalvm
+    hostname: graalvm.service
+    image: graalvm17.0
+    tty: true
+    mac_address: 02-01-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.201
+    volumes:
+      - /home/java:/java
+
+  redis:
+    container_name: redis
+    hostname: 202.mm
+    image: redis8.0
+    tty: true
+    mac_address: 02-02-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.202
+
+  mariadb:
+    container_name: mariadb
+    hostname: 203.mm
+    image: mariadb11.4
+    tty: true
+    mac_address: 02-03-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.203
+    volumes:
+      - /home/mariadb/:/var/lib/mysql
+
+  adb:
+    container_name: adb
+    hostname: 205.mm
+    image: adb34.0
+    tty: true
+    mac_address: 02-05-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.205
+
+  ipv6:
+    container_name: ipv6
+    hostname: 206.mm
+    image: ipv6
+    tty: true
+    mac_address: 02-06-00-00-00-00
+    networks:
+      default:
+        ipv4_address: 172.18.0.6
+      macvlan:
+        ipv4_address: 10.0.0.206
+    sysctls:
+      net.ipv6.conf.all.disable_ipv6: 0
+    volumes:
+      - /home/nginx/:/home/nginx/
+
+  gitlab:
+    container_name: gitlab
+    hostname: 207.mm
+    image: gitlab/gitlab-ce
+    tty: true
+    mac_address: 02-07-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.207
+
+
+  transmission:
+    container_name: transmission
+    hostname: 208.mm
+    image: linuxserver/transmission
+    tty: true
+    mac_address: 02-08-00-00-00-00
+    volumes:
+      - /home/nginx/transmission/:/downloads/
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.208
+# 使用80端口
+# docker stop transmission
+# docker cp transmission:/config/settings.json .
+# sed -i 's|9091|80|g' settings.json
+# docker cp settings.json transmission:/config/settings.json
+
+  xunlei:
+    container_name: xunlei
+    hostname: 209.mm
+    image: cnk3x/xunlei
+    privileged: true
+    tty: true
+    mac_address: 02-09-00-00-00-00
+    volumes:
+      - /home/nginx/xunlei/:/xunlei/downloads/
+    environment:
+      - XL_DASHBOARD_PORT=80
+    dns: 223.6.6.6
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.209
+
+  jenkins:
+    container_name: jenkins
+    hostname: 210.mm
+    image: jenkins2.414
+    tty: true
+    mac_address: 02-10-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.210
+
+
+
+  maomiav:
+    container_name: maomiav
+    hostname: maomiav.mm
+    image: maomiav
+    tty: true
+    mac_address: 02-13-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.213
+
+  terminal:
+    container_name: terminal
+    hostname: 217.mm
+    image: terminal1.5
+    tty: true
+    environment:
+      GUACD_HOSTNAME: terminal
+      SERVER_ADDR : 0.0.0.0:80
+    volumes:
+      - /home/terminal/:/usr/local/next-terminal/data
+    mac_address: 02-17-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.217

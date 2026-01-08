@@ -1,0 +1,233 @@
+name: yun
+
+x-common: &common
+  network_mode: bridge
+  restart: always
+  tty: true
+  extra_hosts:
+    - "yun.mm:172.17.0.1"
+  environment:
+    - GOPATH=/home/go
+    - TZ=Asia/Taipei
+    - GOPROXY="https://goproxy.cn,direct"
+  volumes:
+    - /home/go:/home/go
+    - /home/nginx/temp:/mnt
+    - /home/sources.list:/etc/apt/sources.list:ro
+    - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+
+services:
+  zian:
+    <<: *common
+    container_name: zian
+    hostname: zian.mm
+    image: zian
+    ports:
+      - "80-88:80-88"
+      - "443:443"
+    volumes:
+      - /home/nginx/:/home/nginx/
+      - /home/webdav:/var/www/webdav
+      - /home/sources.list:/etc/apt/sources.list:ro
+      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+    working_dir: /home/nginx
+    command: sh -c "nginx & goweb"
+
+  v2raya:
+    <<: *common
+    container_name: v2raya
+    hostname: v2raya.mm
+    image: mzz2017/v2raya
+    ports:
+      - "0.0.0.0:20170-20172:20170-20172"
+    environment:
+      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+      V2RAYA_ADDRESS: 0.0.0.0:20171
+    volumes:
+      - /home/v2raya:/etc/v2raya
+  # 需指定V2RAYA_V2RAY_BIN才能使用多路
+  # https://www.freeclashnode.com/uploads/2025/06/0-20250606.txt
+  # https://v2rayshare.githubrowcontent.com/2025/06/20250606.txt
+  # 需在设置开启端口分享
+  # https://github.com/Alvin9999/new-pac/wiki/ss免费账号
+
+  v2raya127:
+    <<: *common
+    container_name: v2raya127
+    hostname: v2raya127.mm
+    image: mzz2017/v2raya
+    ports:
+      - "0.0.0.0:127:20170"
+    environment:
+      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+    volumes:
+      - /home/v2raya127:/etc/v2raya
+
+
+  transmission:
+    <<: *common
+    container_name: transmission
+    hostname: transmission.mm
+    image: linuxserver/transmission
+    ports:
+      - "90:9091"
+      - "51413:51413"
+    volumes:
+      - /home/nginx/temp/transmission/:/downloads/
+
+  quic:
+    <<: *common
+    container_name: quic
+    hostname: quic.mm
+    image: nginx.quic
+    ports:
+      - "443:443"
+    command: sh -c "nginx & bash"
+
+  frp:
+    <<: *common
+    container_name: frp
+    image: frp0.65
+
+
+  # 文件配置备份系统
+  webdav:
+    <<: *common
+    container_name: webdav
+    hostname: webdav
+    image: webdav
+    ports:
+      - "5005:80"
+    volumes:
+      - /home/webdav:/var/www/html
+    command: "nginx -g 'daemon off;'"
+
+  mariadb:
+    <<: *common
+    container_name: mariadb
+    hostname: mariadb.mm
+    image: mariadb11.8
+    ports:
+      - "3306:3306"
+    volumes:
+      - /home/mariadb/:/var/lib/mysql
+
+  postgresql:
+    <<: *common
+    container_name: postgresql
+    hostname: postgresql.mm
+    image: postgresql17.6
+    ports:
+      - "5432:5432"
+# sudo -u postgres psql -c "ALTER USER postgres WITH ENCRYPTED PASSWORD 'zian';"
+
+  redis:
+    <<: *common
+    container_name: redis
+    hostname: redis.mm
+    image: redis8.0
+    ports:
+      - "6379:6379"
+
+  chronyd:
+    <<: *common
+    container_name: chronyd
+    hostname: chronyd.mm
+    image: chronyd4.3
+    ports:
+      - "123:123/udp"
+      - "323:323/udp"
+
+  vlmcsd:
+    <<: *common
+    container_name: vlmcsd
+    hostname: vlmcsd.mm
+    image: vlmcsd1113
+    ports:
+      - "1688:1688"
+
+  dnsmasq:
+    <<: *common
+    container_name: dnsmasq
+    hostname: dnsmasq.mm
+    image: dnsmasq2.91
+    volumes:
+      - /etc/hosts:/etc/hosts
+      - /logs/dnsmasq.log:/var/log/dnsmasq/dnsmasq.log
+    ports:
+      - "53:53/udp"
+
+  dot:
+    <<: *common
+    container_name: dot
+    hostname: dot.mm
+    image: dot
+    ports:
+      - "853:853/udp"
+    command: "nginx -g 'daemon off;'"
+
+  xunlei:
+    <<: *common
+    container_name: xunlei
+    hostname: xunlei.mm
+    image: docker.io/cnk3x/xunlei
+    user: root
+    privileged: true
+    volumes:
+      - /home/nginx/xunlei/:/xunlei/downloads/
+    environment:
+      - XL_DASHBOARD_PORT=996
+    ports:
+      - "996:996"
+
+  socket5:
+    <<: *common
+    container_name: socket5
+    hostname: socket5.mm
+    image: socket5
+    ports:
+      - "55555:55555"
+
+  squid:
+    <<: *common
+    container_name: squid5.7
+    hostname: squid
+    image: squid5.7
+    ports:
+      - "11111:3128"
+
+  ollama:
+    <<: *common
+    container_name: ollama
+    hostname: ollama.service
+    image: alpine/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - /home/ollama/.ollama/:/root/.ollama/
+    environment:
+      - OLLAMA_KEEP_ALIVE=-1
+  # ollama run qwen2.5:0.5b
+
+  server:
+    <<: *common
+    container_name: server
+    hostname: serveryun.mm
+    image: debian13.x
+    volumes:
+      - /home/sources.list:/etc/apt/sources.list:ro
+      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+    ports:
+      - "1111:22"
+      - "8000-8010:8000-8010"
+
+  test:
+    <<: *common
+    container_name: test
+    hostname: testyun.mm
+    image: debian13.x
+    ports:
+      - "2222:22"
+      - "8080-8088:8080-8088"
+# 默认进入temp目录操作: echo "cd /temp" >> .bashrc
+# sudo apt update && sudo apt install -y golang openjdk-21-jdk-headless

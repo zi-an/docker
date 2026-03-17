@@ -1,16 +1,30 @@
 <component name="ProjectDictionaryState">
   <dictionary name="docker">
     <words>
+      <w>autoindex</w>
+      <w>buildx</w>
+      <w>chatjimmy</w>
       <w>chronyd</w>
       <w>foobared</w>
+      <w>goproxy</w>
       <w>goweb</w>
       <w>ipam</w>
+      <w>mariadbd</w>
+      <w>modelfile</w>
+      <w>moonchan</w>
+      <w>mybash</w>
       <w>mysqld</w>
+      <w>nbinlog</w>
+      <w>nmax</w>
+      <w>nowatch</w>
+      <w>nserver</w>
       <w>nskip</w>
       <w>ollama</w>
       <w>quic</w>
       <w>requirepass</w>
       <w>serveryun</w>
+      <w>sukebei</w>
+      <w>testyun</w>
       <w>vlmcsd</w>
       <w>xunlei</w>
       <w>zian</w>

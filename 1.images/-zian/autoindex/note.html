@@ -3,28 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>记录者</title>
-    <link rel="stylesheet" href="bootstrap.min.css">
-    <script src="jquery.min.js"></script>
+    <link href="/bootstrap.min.css" rel="stylesheet">
 </head>
 <body style="font-size: 39px">
-<form action="/8888/note" method="post">
+<form action="/api/note" method="post">
     <label style="width: 100%">
         <textarea class="form-control" name="note" required="required" rows="3" style="font-size:39px"></textarea>
-        <input type="submit" value="记载" style="width: 100%">
+        <input class="btn btn-lg btn-light" style="width: 100%" type="submit" value="记载">
     </label>
 </form>
 </body>
 <script type="text/javascript">
     fetch("/json/note/note.log?" + Date.now()).then(logs => logs.text()).then(logs => {
+        logs = logs.split('\n').filter(line => !line.startsWith('#')).join('\n');
         logs.split(/\n(?=\d{4}_\d{4})/g).reverse().forEach(log => {
             if (log.indexOf("http") !== -1) {
                 log = log.replace("http", '<a href="http') + '">....</a>'
             }
-            document.body.innerHTML += `<p>${log}</p>`
+            document.body.innerHTML += `<p style="color: gray">${log}</p>`
         })
     })
 </script>
 </html>
-
-<!--120.76.158.149/json/note/note.log-->
-

@@ -15,6 +15,7 @@ RUN echo 'HandleLidSwitch=lock' >> /etc/systemd/logind.conf &&\
     echo 'deb http://mirrors.ustc.edu.cn/debian trixie main' > /etc/apt/sources.list &&\
     apt update &&\
     echo 'y' | apt install -y bash-completion curl iproute2 iputils-ping locales net-tools openssh-server sudo vim-tiny wget &&\
+    rm -rf /var/lib/apt &&\
     echo 'zh_CN.UTF-8 UTF-8' > /etc/locale.gen &&\
     echo 'LANG=zh_CN.UTF-8' > /etc/default/locale &&\
     locale-gen &&\
@@ -31,11 +32,6 @@ RUN echo 'HandleLidSwitch=lock' >> /etc/systemd/logind.conf &&\
 ADD config.tgz /
 
 # 修改系统所有文件时间,(软链接/lib与/lib64需要添加-h如 touch -h /sbin -t 197001010800.00),方便以后查找
-RUN rm -rf /var/lib/apt &&\
-    find /* -path /sys -prune -o -path /proc -prune -o -exec touch -ht 197001010000.00 {} \;
+RUN find /* -path /sys -prune -o -path /proc -prune -o -exec touch -ht 197001010000.00 {} \;
 
-# 这里不能像centos7直接加参数
 CMD /usr/sbin/sshd -D
-
-# https://download.docker.com/win/static/stable/x86_64/
-# https://blog.csdn.net/Equent/article/details/137779505

@@ -5,6 +5,7 @@
         <option name="imageTag" value="debian13.x" />
         <option name="buildOnly" value="true" />
         <option name="containerName" value="" />
+        <option name="showCommandPreview" value="true" />
         <option name="sourceFilePath" value="1.images/-debian13.x/Dockerfile" />
       </settings>
     </deployment>

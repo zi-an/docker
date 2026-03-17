@@ -1,6 +1,7 @@
 #!/bin/bash
 
-cd /home/nginx/m3u8
+cd /home/nginx/m3u8 || exit
+command -v ffmpeg >/dev/null 2>&1 || { sudo apt update -qq && sudo apt install -y ffmpeg; }
+
 default="-vcodec copy -acodec copy -hls_list_size 0 -hls_segment_filename .$2%03d.ts "
-command -v ffmpeg >/dev/null 2>&1 || apt install -y ffmpeg
 nohup ffmpeg -i $1 $default $2.m3u8 &

@@ -1,8 +1,10 @@
 #!/bin/bash
 
-cd /var/www/
-rm master*
-command -v unzip >/dev/null 2>&1 || apt install -y unzip
-wget github.com/zi-an/zi-an.github.io/archive/refs/heads/master.zip
-unzip -o master.zip
-rm master.zip
+ulimit -t 60
+command -v git >/dev/null 2>&1 || { sudo apt update -qq && sudo apt install -y git; }
+
+if [ -d /var/www/zi-an ]; then
+        cd /var/www/zi-an && git pull
+else
+        git clone --depth=1 https://github.com/zi-an/zi-an.github.io.git /var/www/zian
+fi

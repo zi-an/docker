@@ -30,7 +30,7 @@ services:
   ollama:
     container_name: ollama
     hostname: ollama.service
-    image: ollama/ollama
+    image: alpine/ollama
     tty: true
     mac_address: 02-14-00-00-00-00
     networks:

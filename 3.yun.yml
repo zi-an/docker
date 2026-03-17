@@ -12,7 +12,7 @@ x-common: &common
     - GOPROXY="https://goproxy.cn,direct"
   volumes:
     - /home/go:/home/go
-    - /home/nginx/temp:/mnt
+    - /home/nginx/container:/container
     - /home/sources.list:/etc/apt/sources.list:ro
     - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
 
@@ -23,13 +23,13 @@ services:
     hostname: zian.mm
     image: zian
     ports:
-      - "80-88:80-88"
+      - "80-99:80-99"
       - "443:443"
     volumes:
       - /home/nginx/:/home/nginx/
       - /home/webdav:/var/www/webdav
       - /home/sources.list:/etc/apt/sources.list:ro
-      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh
     working_dir: /home/nginx
     command: sh -c "nginx & goweb"
 
@@ -41,15 +41,13 @@ services:
     ports:
       - "0.0.0.0:20170-20172:20170-20172"
     environment:
-      V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+      V2RAYA_V2RAY_BIN: /usr/local/bin/xray
       V2RAYA_ADDRESS: 0.0.0.0:20171
     volumes:
       - /home/v2raya:/etc/v2raya
   # 需指定V2RAYA_V2RAY_BIN才能使用多路
-  # https://www.freeclashnode.com/uploads/2025/06/0-20250606.txt
-  # https://v2rayshare.githubrowcontent.com/2025/06/20250606.txt
   # 需在设置开启端口分享
-  # https://github.com/Alvin9999/new-pac/wiki/ss免费账号
+  # https://github.com/Alvin9999-newpac/fanqiang/wiki/ss免费账号
 
   v2raya127:
     <<: *common
@@ -207,16 +205,15 @@ services:
       - /home/ollama/.ollama/:/root/.ollama/
     environment:
       - OLLAMA_KEEP_ALIVE=-1
-  # ollama run qwen2.5:0.5b
+      - OLLAMA_THINK=false
+      - OLLAMA_ORIGINS=*
+  # ollama run qwen3:0.6b
 
   server:
     <<: *common
     container_name: server
     hostname: serveryun.mm
     image: debian13.x
-    volumes:
-      - /home/sources.list:/etc/apt/sources.list:ro
-      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
     ports:
       - "1111:22"
       - "8000-8010:8000-8010"

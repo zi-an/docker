@@ -21,12 +21,11 @@ services:
     hostname: zian.mm
     image: zian
     ports:
-      - "0.0.0.0:80-88:80-88"
-      #- "0.0.0.0:5005:5005"
+      - "0.0.0.0:80-99:80-99"
     volumes:
       - /home/nginx/:/home/nginx/
       - /home/webdav:/var/www/webdav
-      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
+      - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh
     working_dir: /home/nginx
     command: sh -c "nginx & goweb"
 # mv /etc/nginx/sites-enabled/80.conf /etc/nginx/sites-enabled/88.conf

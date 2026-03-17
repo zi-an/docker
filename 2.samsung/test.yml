@@ -20,7 +20,10 @@ x-common: &common
   environment:
     - GOPROXY=https://goproxy.cn,direct
     - TZ=Asia/Taipei
-
+  volumes:
+    - /home/nginx/temp:/mnt
+    - /etc/apt/sources.list:/etc/apt/sources.list:ro
+    - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
 
 services:
   ffmpeg:

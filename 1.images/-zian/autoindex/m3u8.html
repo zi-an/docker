@@ -3,45 +3,28 @@
 
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>视频</title>
     <link href="/bootstrap.min.css" rel="stylesheet">
-    <style>
-        a {
-            display: block;
-            width: 720px; /* 设置容器宽度 */
-            white-space: nowrap; /* 禁止文字换行 */
-            overflow: hidden; /* 隐藏超出部分 */
-            text-overflow: ellipsis; /* 超出部分显示省略号 */
-        }
-
-        @media (prefers-color-scheme: dark) {
-            body {
-                background-color: black;
-            }
-        }
-    </style>
+    <link href="/my.css" rel="stylesheet">
 </head>
 
-<body style="font-size: 39px">
-<form action="/8888/m3u8" method="post">
-    <label style="width: 100%;font-size: 39px">
-        <input name="uri" required="required" style="width:100%" placeholder="下载地址"/>
-        <input name="name" required="required" style="width:100%" placeholder="文件名称"/>
-    </label><br>
-    <input type="submit" value="下载" style="width:100%">
+<body style="font-size:39px">
+<form action="/api/m3u8" class="mb-1" method="post">
+    <label style="width: 100%">
+        <input class="form-control form-control-lg" name="uri" placeholder="下载地址" required="required"/>
+        <input class="form-control form-control-lg" name="name" placeholder="文件名称" required="required"/>
+    </label>
+    <input class="btn btn-lg btn-light" style="width:100%" type="submit" value="下载">
 </form>
 
-
 <div class="panel panel-default">
-    <table class="table" id="load">
+    <table class="table table-striped table-hover" id="load">
     </table>
 </div>
 </body>
 <script type="text/javascript">
-    const urlParams = new URLSearchParams(window.location.search);
-    from = urlParams.has('from') ? urlParams.get('from') : "/";
     let data;
-    baseUrl = "./json" + from
+    baseUrl = "/json" + window.location.pathname
 
     fetch(baseUrl)
         .then(response => response.json())
@@ -52,28 +35,50 @@
         )
 
     function loadData() {
-        let result = '<tr><th style="width: 70%">名称</th><th style="width: 30%" onclick="sort()">时间</th></tr>';
-        result += '<tr><td><a href="/?from=' + parentDirectory(from) + '">..</a></td><td>----------</td></tr>';
+        let result = ``;
+
+        // 添加返回上级目录链接
+        result += `
+            <tr>
+                <td><a href="${parentDirectory(window.location.pathname)}">...</a></td>
+                <td></td>
+            </tr>
+        `;
+
+        // 遍历数据生成表格行
         for (let i = 0; i < data.length; i++) {
+            const item = data[i];
             result += '<tr>';
-            //result += '<td>' + data[i].name + '</td>';
-            if (data[i].type === 'directory') {
-                let url = "./?from=" + from + '/' + data[i].name + '/';
-                url = url.replace("\/\/", "\/");
-                //result += '<td><a onclick="loadJson(\'' + url + '\')">' + data[i].name + '(目录)</a></td>';
-                //重新加载,已放弃
-                result += '<td><a  href="' + url + '">.\/' + '' + data[i].name + '\/</a></td>';
-                //带参跳转,可返回
-                result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+
+            if (item.type === 'directory') {
+                // 处理目录
+                const url = normalizeUrl(window.location.pathname + '/' + item.name + '/');
+                result += `<td><a href="${url}">./${item.name}/</a></td>`;
             } else {
-                let url = baseUrl + data[i].name;
-                //url = url.replace("/json/", "/");
-                result += '<td><a href="' + url + '">' + data[i].name + '</a></td>';
-                result += '<td>' + dateFormat(data[i].mtime) + '</td>';
+                // 处理文件
+                const url = baseUrl + item.name;
+                result += `<td><a href="${url}" class="d-inline-block me-2 text-truncate" style="max-width: 70%;">${item.name}</a><small class="text-muted align-middle">${formatFileSize(item.size)}</small></td>`;
             }
-            result += '</tr>'
+
+            result += `<td>${dateFormat(item.mtime)}</td>`;
+            result += '</tr>';
         }
+
         document.getElementById("load").innerHTML = result;
+    }
+
+    // 辅助函数：标准化URL
+    function normalizeUrl(url) {
+        return url.replace(/\/+/g, '/');
+    }
+
+    // 辅助函数：格式化文件大小
+    function formatFileSize(bytes) {
+        if (bytes === 0) return '0 B';
+        const k = 1024;
+        const sizes = ['B', 'KB', 'MB', 'GB'];
+        const i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
     }
 
     //时间排序
@@ -86,6 +91,7 @@
         })
         loadData();
     }
+
 
     /*返回格式化时间*/
     function dateFormat(unixTimestamp) {
@@ -108,20 +114,3 @@
     }
 </script>
 </html>
-<!--
- location / {
-  root   html;
-  index  index.html;
- }
-
- location /json/ {
- add_header Access-Control-Allow-Origin *;
-            add_header Access-Control-Allow-Methods 'GET, POST, OPTIONS';
-            add_header Access-Control-Allow-Headers 'DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization';
-  autoindex on;
-  autoindex_format json;
-  alias  z:/;
- }
--->
-
-

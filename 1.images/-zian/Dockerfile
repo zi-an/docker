@@ -13,15 +13,19 @@ RUN mkdir /home/nginx/ &&\
     sed -i 's/# gzip_vary on;/gzip_vary on;/' /etc/nginx/nginx.conf &&\
     sed -i 's/# gzip_comp_level 6;/gzip_comp_level 6;/' /etc/nginx/nginx.conf &&\
     sed -i 's/# gzip_types text\/plain/gzip_types text\/plain/' /etc/nginx/nginx.conf &&\
-    sed -i 's|txt;|txt md reg;|g' /etc/nginx/mime.types &&\
+    sed -i 's|txt;|conf log md out reg sh txt;|g' /etc/nginx/mime.types &&\
     rm /etc/nginx/sites-enabled/default &&\
     sed -i 's|www-data|root|g' /etc/nginx/nginx.conf &&\
     htpasswd -bc /passwd zian zian
+
+RUN wget https://zian.netlify.app/debian/https.tgz &&\
+    tar -zxf https.tgz -C /etc/nginx/ &&\
+    rm https.tgz
 
 ADD /shell /usr/bin/
 ADD /autoindex/* /var/www/autoindex/
 ADD /conf/* /etc/nginx/sites-enabled
 
-RUN chmod 777 /usr/bin/updategit /usr/bin/m3u8downloader /usr/bin/goweb
-# 0 */2 * * * docker exec zian updategit
+RUN chmod 777 /usr/bin/gitupdate /usr/bin/m3u8downloader /usr/bin/goweb
+# 0 */2 * * * docker exec zian gitupdate
 

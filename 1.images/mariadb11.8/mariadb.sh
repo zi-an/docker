@@ -8,5 +8,5 @@ then
 	mariadb <init.txt
 	sh
 else
-	/usr/bin/mariadbd_safe --nowatch
+	/usr/bin/mariadbd-safe --nowatch
 fi

@@ -3,8 +3,8 @@
 ulimit -t 60
 command -v git >/dev/null 2>&1 || { sudo apt update -qq && sudo apt install -y git; }
 
-if [ -d /var/www/zi-an ]; then
-        cd /var/www/zi-an && git pull
+if [ -d /var/www/zian ]; then
+        cd /var/www/zian && git pull
 else
         git clone --depth=1 https://github.com/zi-an/zi-an.github.io.git /var/www/zian
 fi

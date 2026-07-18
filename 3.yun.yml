@@ -25,6 +25,7 @@ services:
     ports:
       - "80-99:80-99"
       - "443:443"
+      - "443:443/udp"
     volumes:
       - /home/nginx/:/home/nginx/
       - /home/webdav:/var/www/webdav
@@ -226,5 +227,7 @@ services:
     ports:
       - "2222:22"
       - "8080-8088:8080-8088"
+      - "8443:8443"
+      - "8443:8443/udp"
 # 默认进入temp目录操作: echo "cd /temp" >> .bashrc
 # sudo apt update && sudo apt install -y golang openjdk-21-jdk-headless

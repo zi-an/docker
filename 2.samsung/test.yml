@@ -1,13 +1,15 @@
 #https://docs.docker.com/compose/compose-file/compose-file-v3/
-name: samsung
+name: lenovo
 
 networks:
   macvlan:
     driver: macvlan
+    enable_ipv6: true
     driver_opts:
       parent: enp4s0
     ipam:
       config:
+        - subnet: f000::/64
         - subnet: 10.0.0.0/24
           ip_range: 10.0.0.0/24
           gateway: 10.0.0.1
@@ -15,13 +17,11 @@ networks:
 x-common: &common
   restart: always
   tty: true
-  extra_hosts:
-    - "yun.mm:14.103.224.46"
   environment:
     - GOPROXY=https://goproxy.cn,direct
     - TZ=Asia/Taipei
   volumes:
-    - /home/nginx/temp:/mnt
+    - /home/nginx/container:/container
     - /etc/apt/sources.list:/etc/apt/sources.list:ro
     - /etc/profile.d/mybash.sh:/etc/profile.d/mybash.sh:ro
 
@@ -127,6 +127,37 @@ services:
       macvlan:
         ipv4_address: 10.0.0.220
 
+  v2raya:
+    <<: *common
+    container_name: v2raya
+    hostname: v2raya.mm
+    image: mzz2017/v2raya
+    mac_address: 02-11-00-00-00-00
+    environment:
+      TZ: Asia/Shanghai
+      #V2RAYA_V2RAY_BIN: /usr/local/bin/v2ray
+      V2RAYA_V2RAY_BIN: /usr/local/bin/xray
+      V2RAYA_ADDRESS: 0.0.0.0:80
+    volumes:
+      - /home/v2raya:/etc/v2raya
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.211
+
+  # 需指定V2RAYA_V2RAY_BIN才能使用多路
+  # https://www.freeclashnode.com/uploads/2025/06/0-20250606.txt
+  # https://v2rayshare.githubrowcontent.com/2025/06/20250606.txt
+  # 需在设置开启端口分享
+
+  test220:
+    <<: *common
+    container_name: test220
+    hostname: 220.mm
+    image: xjonathanlei/nginx-socks
+    mac_address: 02-30-00-00-00-00
+    networks:
+      macvlan:
+        ipv4_address: 10.0.0.220
 
   test221:
     <<: *common

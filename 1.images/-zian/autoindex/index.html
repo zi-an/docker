@@ -44,10 +44,9 @@
         result += `
             <tr>
                 <td><a href="${parentDirectory(window.location.pathname)}">...</a></td>
-                <td></td>
+                <td onclick="sort()"></td>
             </tr>
         `;
-
         // 遍历数据生成表格行
         for (let i = 0; i < data.length; i++) {
             const item = data[i];
@@ -63,7 +62,7 @@
                 result += `<td><a href="${url}" class="d-inline-block me-2 text-truncate align-middle" style="max-width: 70%;">${item.name}</a><small class="text-muted align-middle">${formatFileSize(item.size)}</small></td>`;
             }
 
-            result += `<td><span style="color: gray; white-space: nowrap">${dateFormat(item.mtime)}</span></td>`;
+            result += `<td><span style="color: gray; white-space: nowrap; cursor: pointer;" onclick="sort()">${dateFormat(item.mtime)}</span></td>`;
             result += '</tr>';
         }
 

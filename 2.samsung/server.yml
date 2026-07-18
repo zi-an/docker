@@ -1,14 +1,15 @@
 #https://docs.docker.com/compose/compose-file/compose-file-v3/
-name: samsung
+name: lenovo
 
 networks:
   macvlan:
     driver: macvlan
+    enable_ipv6: true
     driver_opts:
-      #parent: enp8s0
       parent: enp4s0
     ipam:
       config:
+        - subnet: f000::/64
         - subnet: 10.0.0.0/24
           ip_range: 10.0.0.0/24
           gateway: 10.0.0.1
@@ -61,27 +62,27 @@ services:
     volumes:
       - /home/java:/java
 
-  redis:
-    container_name: redis
-    hostname: 202.mm
-    image: redis8.0
+  mariadb:
+    container_name: mariadb
+    hostname: 203.mm
+    image: mariadb11.8
     tty: true
     mac_address: 02-02-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 10.0.0.202
+    volumes:
+      - /home/mariadb/:/var/lib/mysql
 
-  mariadb:
-    container_name: mariadb
+  redis:
+    container_name: redis
     hostname: 203.mm
-    image: mariadb11.4
+    image: redis8.0
     tty: true
-    mac_address: 02-03-00-00-00-00
+    mac_address: 02-02-00-00-00-00
     networks:
       macvlan:
         ipv4_address: 10.0.0.203
-    volumes:
-      - /home/mariadb/:/var/lib/mysql
 
   adb:
     container_name: adb
